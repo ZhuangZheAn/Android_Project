@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Accounting Notebook</string>
+    <string name="qool_minecraft_server">我的食譜學習日誌</string>
+    <string name="title_activity_main2">MainActivity2</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="n1_info">作法步驟\n\n1.煎牛腩：熱鍋下香油，放入牛肉以大火煎30秒，再加入薑、蔥白拌炒。\n\n2.開中火，加入豆瓣醬以中火拌炒2分鐘，再加入番茄醬、辣豆腐乳、米酒煨煮約5分鐘。\n\n3.鍋中醬汁濃稠後再加入水、醬油、醬油膏、烏醋、白胡椒粉略攪拌。\n\n4.依序再加入烤洋蔥、滷包、紅白蘿蔔、蕃茄，等湯鍋煮滾時，再加入蔥、辣椒，以小火滷40分鐘，再關火蓋鍋蓋燜20分鐘，紅燒牛肉湯完成了。</string>
+    <string name="n2_info">作法步驟\n\n1.將蛋攪拌均勻後下油鍋後炒蛋備用。\n\n2.先將炒蛋取出，原鍋下油及蒜末炒香後，加入切小塊的番茄及少許鹽巴拌炒，後可加入一點水持續拌炒，至番茄呈微稠狀，加入番茄醬及砂糖，再加入炒好的蛋一起拌炒均勻，灑上蔥花，即可美味上桌。</string>
+    <string name="n3_info">作法步驟\n\n1.將醬汁加入水與鹽煮沸，放入食材再次煮沸。\n\n2.放入義大利麵再次煮沸即可食用。</string>
+    <string name="n4_info">作法步驟\n\n1.白蘿蔔削皮，切成適稍厚的塊狀\n\n2.貢丸/魚丸劃十字，但不要切斷\n\n3.薑切片，白胡椒拍破\n\n4.水中加入薑片和拍破的白胡椒煮滾\n\n5.加入白蘿蔔煮滾\n\n</string>
+
+</resources>
