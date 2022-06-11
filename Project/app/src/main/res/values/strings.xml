@@ -17,6 +17,16 @@
 <resources>
     <string name="app_name">RecyclerView</string>
     <string name="action_settings">Settings</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="now">取得現在時間</string>
+    <string name="time">Time</string>
+    <string name="timeTV">時間：</string>
+    <string name="finish">finish</string>
+    <string name="ex">備註：</string>
+    <string name="date">選擇時間</string>
+    <string name="purpose">目的：</string>
+    <string name="hint_purposeMTV">輸入目的</string>
+    <string name="hint_costMTV">輸入金額</string>
+    <string name="hint_exMTV">輸入備註</string>
+    <string name="reset">reset</string>
 </resources>

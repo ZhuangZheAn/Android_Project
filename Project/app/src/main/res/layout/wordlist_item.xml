@@ -24,6 +24,8 @@
 
     <TextView
         android:id="@+id/word"
-        style="@style/word_title" />
+        style="@style/word_title"
+        android:text="abcdefg"
+        android:textSize="12sp" />
 
 </LinearLayout>
