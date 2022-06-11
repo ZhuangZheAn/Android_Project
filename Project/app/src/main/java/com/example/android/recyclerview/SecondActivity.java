@@ -1,28 +1,23 @@
 package com.example.android.recyclerview;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.Spinner;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Objects;
 
 public class SecondActivity extends AppCompatActivity{
 
-    private Spinner mSpinner;
     private TextView mTextviewTime;
-    private EditText mPurposeMTV;
     private EditText mCostMTV;
     private EditText mExMTV;
     private String month_string;
@@ -32,30 +27,26 @@ public class SecondActivity extends AppCompatActivity{
     private String minute_string;
     private String second_string;
     private String timeMessage;
+    private String expenseOrIncome;
     private static final String NEW_KEY = "New";
-    private static final String SPLIT_CHAR2 = "#$";
-
+    private static final String SPLIT_CHAR2 = "#%";
+    private static final String EXPENSE = "expense";
+    private static final String INCOME = "income";
     @SuppressLint("SimpleDateFormat")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
-        mPurposeMTV = findViewById(R.id.purposeMTV);
         mCostMTV = findViewById(R.id.costMTV);
         mExMTV = findViewById(R.id.exMTV);
         mTextviewTime = findViewById(R.id.tvTime);
         GetNowTime();
-        mSpinner = findViewById(R.id.spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.http_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mSpinner.setAdapter(adapter);
     }
 
     public void ClickFinish(View view) {
-        String purpose = mPurposeMTV.getText().toString();
         String cost = mCostMTV.getText().toString();
         String ex = mExMTV.getText().toString();
-        if(Objects.equals(purpose, "") || Objects.equals(cost, "")){
+        if(Objects.equals(cost, "")){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("提醒");
             builder.setMessage("目的與金額不可留空");
@@ -67,7 +58,8 @@ public class SecondActivity extends AppCompatActivity{
             alert.show();
         }
         else{
-            String extra = timeMessage + "\n" + purpose + SPLIT_CHAR2 + cost + SPLIT_CHAR2 + ex;
+            if(expenseOrIncome == null) expenseOrIncome = EXPENSE;
+            String extra = timeMessage + SPLIT_CHAR2 + expenseOrIncome + SPLIT_CHAR2 + cost + SPLIT_CHAR2 + ex;
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra(NEW_KEY,extra);
             startActivity(intent);
@@ -121,4 +113,24 @@ public class SecondActivity extends AppCompatActivity{
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
+    @SuppressLint("NonConstantResourceId")
+    public void onRadioButtonClicked(View view) {
+        boolean checked = ((RadioButton) view).isChecked();
+        switch (view.getId()) {
+            case R.id.expenseRB:
+                if (checked){
+                    expenseOrIncome = EXPENSE;
+                    makeToast(getString(R.string.expenseRB_toast));
+                }
+                break;
+            case R.id.incomeRB:
+                if (checked){
+                    expenseOrIncome = INCOME;
+                    makeToast(getString(R.string.incomeRB_toast));
+                }
+                break;
+            default:
+                break;
+        }
+    }
 }

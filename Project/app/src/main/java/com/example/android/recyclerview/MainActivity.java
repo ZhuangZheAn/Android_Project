@@ -12,15 +12,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
-import java.util.Objects;
-import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String DATASIZE_KEY = "DataSize";
     private static final String DATAS_KEY = "Datas";
     private static final String SPLIT_CHAR = "!@";
-    private static final String SPLIT_CHAR2 = "#$";
+    private static final String SPLIT_CHAR2 = "#%";
     private static final String NEW_KEY = "New";
     private SharedPreferences mPreferences;
     private String sharedPrefFile =
@@ -88,10 +84,11 @@ public class MainActivity extends AppCompatActivity {
             else{
                 datas += SPLIT_CHAR + req;
                 arr = datas.split(SPLIT_CHAR);
-                sort(arr);
+
+                sort(arr, Collections.reverseOrder());
             }
             for(int i = 0; i < data_size; i++){
-                mWordList.addLast(arr[i].replace(SPLIT_CHAR2, " "));
+                mWordList.addLast(arr[i]);
             }
             SharedPreferences.Editor preferencesEditor = mPreferences.edit();
             preferencesEditor.putInt(DATASIZE_KEY, data_size);
@@ -101,9 +98,9 @@ public class MainActivity extends AppCompatActivity {
         else{
             if(data_size != 0){
                 String[] arr = datas.split(SPLIT_CHAR);
-                sort(arr);
+                sort(arr, Collections.reverseOrder());
                 for(int i = 0; i < data_size; i++){
-                    mWordList.addLast(arr[i].replace(SPLIT_CHAR2, " "));
+                    mWordList.addLast(arr[i]);
                 }
             }
         }

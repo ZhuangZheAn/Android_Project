@@ -29,4 +29,9 @@
     <string name="hint_costMTV">輸入金額</string>
     <string name="hint_exMTV">輸入備註</string>
     <string name="reset">reset</string>
+    <string name="expense">支出</string>
+    <string name="income">收入</string>
+    <string name="expenseRB_toast">選擇金額類型:支出</string>
+    <string name="incomeRB_toast">選擇金額類型:收入</string>
+    <string name="split_char2">#$</string>
 </resources>

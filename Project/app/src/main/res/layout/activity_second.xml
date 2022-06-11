@@ -30,6 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
+        android:paddingTop="5dp"
         android:text="@string/timeTV"
         android:textSize="28sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,58 +41,49 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:paddingTop="5dp"
         android:text="@string/ex"
         android:textSize="28sp"
-        app:layout_constraintStart_toStartOf="@+id/spinner"
-        app:layout_constraintTop_toBottomOf="@+id/spinner" />
+        app:layout_constraintStart_toStartOf="@+id/radioGroup"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
-    <EditText
-        android:id="@+id/purposeMTV"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="@string/hint_purposeMTV"
-        android:inputType="textPersonName"
-        android:textColorHint="#546E7A"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/textView"
-        app:layout_constraintTop_toTopOf="@+id/textView" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="@string/purpose"
-        android:textSize="28sp"
-        app:layout_constraintStart_toStartOf="@+id/tvTime"
-        app:layout_constraintTop_toBottomOf="@+id/tvTime" />
-
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="120dp"
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginTop="24dp"
-        android:contentDescription="@string/app_name"
-        app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        tools:ignore="MissingConstraints" />
-
-    <EditText
-        android:id="@+id/costMTV"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="@string/hint_costMTV"
-        android:inputType="number"
-        android:textColorHint="#546E7A"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/spinner"
-        app:layout_constraintTop_toTopOf="@+id/spinner" />
+        app:layout_constraintStart_toStartOf="@+id/tvTime"
+        app:layout_constraintTop_toBottomOf="@+id/tvTime">
+
+        <RadioButton
+            android:id="@+id/expenseRB"
+            android:layout_width="80dp"
+            android:layout_height="48dp"
+            android:checked="true"
+            android:onClick="onRadioButtonClicked"
+            android:text="@string/expense"
+            tools:ignore="TextContrastCheck" />
+
+        <RadioButton
+            android:id="@+id/incomeRB"
+            android:layout_width="80dp"
+            android:layout_height="48dp"
+            android:onClick="onRadioButtonClicked"
+            android:text="@string/income"
+            tools:ignore="TextContrastCheck" />
+
+        <EditText
+            android:id="@+id/costMTV"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:autofillHints=""
+            android:ems="10"
+            android:hint="@string/hint_costMTV"
+            android:inputType="number"
+            android:textColorHint="#546E7A" />
+    </RadioGroup>
 
     <EditText
         android:id="@+id/exMTV"

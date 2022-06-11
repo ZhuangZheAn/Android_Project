@@ -16,7 +16,10 @@
 
 package com.example.android.recyclerview;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +27,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.LinkedList;
+import java.util.Objects;
 
 /**
  * Shows how to implement a simple Adapter for a RecyclerView.
@@ -34,10 +38,15 @@ public class WordListAdapter extends
 
     private final LinkedList<String> mWordList;
     private final LayoutInflater mInflater;
+    private static final String SPLIT_CHAR2 = "#%";
+
+    private static final String EXPENSE = "expense";
+    private static final String INCOME = "income";
 
     class WordViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
         public final TextView wordItemView;
+        public final TextView mbalance;
         final WordListAdapter mAdapter;
 
         /**
@@ -51,6 +60,7 @@ public class WordListAdapter extends
         public WordViewHolder(View itemView, WordListAdapter adapter) {
             super(itemView);
             wordItemView = itemView.findViewById(R.id.word);
+            mbalance = itemView.findViewById(R.id.balance);
             this.mAdapter = adapter;
             itemView.setOnClickListener(this);
         }
@@ -114,13 +124,30 @@ public class WordListAdapter extends
      *                 data set.
      * @param position The position of the item within the adapter's data set.
      */
+    @SuppressLint({"SetTextI18n", "ObsoleteSdkInt"})
     @Override
     public void onBindViewHolder(WordListAdapter.WordViewHolder holder,
                                  int position) {
-        // Retrieve the data for that position.
         String mCurrent = mWordList.get(position);
-        // Add the data to the view holder.
-        holder.wordItemView.setText(mCurrent);
+        String[] arr = mCurrent.split(SPLIT_CHAR2);
+
+        if(Objects.equals(arr[1], EXPENSE)){
+            holder.mbalance.setText("支出 " + arr[2] + " $");
+            if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                holder.mbalance.setBackgroundDrawable(ContextCompat.getDrawable(holder.mbalance.getContext(), R.drawable.expense_background) );
+            } else {
+                holder.mbalance.setBackground(ContextCompat.getDrawable(holder.mbalance.getContext(), R.drawable.expense_background));
+            }
+        }
+        else{
+            holder.mbalance.setText("收入 " + arr[2] + " $");
+            if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                holder.mbalance.setBackgroundDrawable(ContextCompat.getDrawable(holder.mbalance.getContext(), R.drawable.income_background) );
+            } else {
+                holder.mbalance.setBackground(ContextCompat.getDrawable(holder.mbalance.getContext(), R.drawable.income_background));
+            }
+        }
+        holder.wordItemView.setText(" " + arr[3]);
     }
 
     /**
