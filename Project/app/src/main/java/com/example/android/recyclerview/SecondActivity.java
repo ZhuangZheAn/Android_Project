@@ -49,7 +49,7 @@ public class SecondActivity extends AppCompatActivity{
         if(Objects.equals(cost, "")){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("提醒");
-            builder.setMessage("目的與金額不可留空");
+            builder.setMessage("金額不可留空");
             builder.setCancelable(true);
             builder.setPositiveButton(
                     "我知道了",
@@ -59,6 +59,7 @@ public class SecondActivity extends AppCompatActivity{
         }
         else{
             if(expenseOrIncome == null) expenseOrIncome = EXPENSE;
+            if(Objects.equals(ex, "")) ex = "no message";
             String extra = timeMessage + SPLIT_CHAR2 + expenseOrIncome + SPLIT_CHAR2 + cost + SPLIT_CHAR2 + ex;
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra(NEW_KEY,extra);

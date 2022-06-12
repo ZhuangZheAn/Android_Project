@@ -86,7 +86,7 @@ public class WordListAdapter extends
         this.mWordList = wordList;
     }
 
-    /**
+    /**5
      * Called when RecyclerView needs a new ViewHolder of the given type to
      * represent an item.
      *
