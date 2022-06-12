@@ -2,6 +2,9 @@ package com.example.android.recyclerview;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.speech.RecognizerIntent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +16,7 @@ import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Objects;
 
 public class SecondActivity extends AppCompatActivity{
@@ -32,6 +36,8 @@ public class SecondActivity extends AppCompatActivity{
     private static final String SPLIT_CHAR2 = "#%";
     private static final String EXPENSE = "expense";
     private static final String INCOME = "income";
+    private static final int REQUEST_COST_VOICE = 0;
+    private static final int REQUEST_EX_VOICE = 1;
     @SuppressLint("SimpleDateFormat")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +70,48 @@ public class SecondActivity extends AppCompatActivity{
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra(NEW_KEY,extra);
             startActivity(intent);
+        }
+    }
+
+    public void listenerOnClick(View view) {
+        displaySpeechRecognizer(REQUEST_COST_VOICE);
+    }
+
+    public void listenerOnClick2(View view) {
+        displaySpeechRecognizer(REQUEST_EX_VOICE);
+    }
+
+    private void displaySpeechRecognizer(int requset_code) {
+        PackageManager pm = getPackageManager();
+        List<ResolveInfo> activities = pm.queryIntentActivities(
+                new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH),0);
+        if(activities.size() != 0){
+            Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                    RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+            startActivityForResult(intent, requset_code);
+        }
+        else{
+            makeToast("你無法使用語音");
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_COST_VOICE && resultCode == RESULT_OK) {
+            List<String> results = data.getStringArrayListExtra(
+                    RecognizerIntent.EXTRA_RESULTS);
+            String spokenText = results.get(0);
+            Toast.makeText(this,spokenText,Toast.LENGTH_SHORT).show();
+            mCostMTV.setText(spokenText.replaceAll("[^0-9]",""));
+        }
+        else if (requestCode == REQUEST_EX_VOICE && resultCode == RESULT_OK) {
+            List<String> results = data.getStringArrayListExtra(
+                    RecognizerIntent.EXTRA_RESULTS);
+            String spokenText = results.get(0);
+            Toast.makeText(this,spokenText,Toast.LENGTH_SHORT).show();
+            mExMTV.setText(spokenText);
         }
     }
 
@@ -134,4 +182,7 @@ public class SecondActivity extends AppCompatActivity{
                 break;
         }
     }
+
+
+
 }

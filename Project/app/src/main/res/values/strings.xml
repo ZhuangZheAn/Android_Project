@@ -34,4 +34,5 @@
     <string name="expenseRB_toast">選擇金額類型:支出</string>
     <string name="incomeRB_toast">選擇金額類型:收入</string>
     <string name="split_char2">#$</string>
+    <string name="voice_cost">voice_cost</string>
 </resources>
