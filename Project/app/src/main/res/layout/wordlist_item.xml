@@ -16,9 +16,11 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/list"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
+    android:onClick="moreInfo"
     android:padding="6dp"
     android:background="@drawable/wordlist_item_background"
     >
@@ -39,6 +41,7 @@
         android:ellipsize="end"
         android:singleLine="true"
         android:text="我我我我我我我我我我我我我我我我我我我我我我我我我我"
+        android:onClick="moreInfo"
         android:textSize="18sp" />
 
 </LinearLayout>
