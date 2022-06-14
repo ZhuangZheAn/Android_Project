@@ -57,41 +57,39 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
-        android:id="@+id/Date_button"
+        android:id="@+id/detail_Date_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
         android:onClick="ClickDate"
         android:text="@string/date"
         android:textSize="20sp"
         android:visibility="invisible"
-        app:layout_constraintTop_toBottomOf="@+id/revise_btn"
-        tools:layout_editor_absoluteX="0dp" />
+        app:layout_constraintTop_toBottomOf="@+id/revise_btn" />
 
     <TextView
-        android:id="@+id/tvTime"
+        android:id="@+id/detail_tvTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="@string/time"
         android:textSize="24sp"
         android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="@+id/Date_button"
-        app:layout_constraintTop_toBottomOf="@+id/Date_button" />
+        app:layout_constraintStart_toStartOf="@+id/detail_Date_button"
+        app:layout_constraintTop_toBottomOf="@+id/detail_Date_button" />
 
     <RadioGroup
-        android:id="@+id/radioGroup"
+        android:id="@+id/detail_radioGroup"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginTop="24dp"
         android:orientation="horizontal"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/tvTime"
-        app:layout_constraintTop_toBottomOf="@+id/tvTime">
+        app:layout_constraintStart_toStartOf="@+id/detail_tvTime"
+        app:layout_constraintTop_toBottomOf="@+id/detail_tvTime">
 
         <RadioButton
-            android:id="@+id/expenseRB"
+            android:id="@+id/detail_expenseRB"
             android:layout_width="80dp"
             android:layout_height="48dp"
             android:checked="true"
@@ -100,7 +98,7 @@
             tools:ignore="TextContrastCheck" />
 
         <RadioButton
-            android:id="@+id/incomeRB"
+            android:id="@+id/detail_incomeRB"
             android:layout_width="80dp"
             android:layout_height="48dp"
             android:onClick="onRadioButtonClicked"
@@ -110,7 +108,7 @@
     </RadioGroup>
 
     <EditText
-        android:id="@+id/costMTV"
+        android:id="@+id/detail_costMTV"
         android:layout_width="0dp"
         android:layout_height="51dp"
         android:autofillHints=""
@@ -120,10 +118,10 @@
         android:textColorHint="#546E7A"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+        app:layout_constraintTop_toBottomOf="@+id/detail_radioGroup" />
 
     <EditText
-        android:id="@+id/exMTV"
+        android:id="@+id/detail_exMTV"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:autofillHints=""
@@ -135,10 +133,10 @@
         android:textColorHint="#546E7A"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/costMTV" />
+        app:layout_constraintTop_toBottomOf="@+id/detail_costMTV" />
 
     <Button
-        android:id="@+id/cancel_button"
+        android:id="@+id/detail_cancel_button"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:onClick="ClickCancel"
@@ -148,11 +146,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/finish_button"
+        app:layout_constraintTop_toBottomOf="@+id/detail_finish_button"
         app:layout_constraintVertical_bias="1.0" />
 
     <Button
-        android:id="@+id/finish_button"
+        android:id="@+id/detail_finish_button"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:onClick="ClickApply"

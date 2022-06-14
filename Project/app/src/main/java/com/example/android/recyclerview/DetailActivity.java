@@ -70,13 +70,13 @@ public class DetailActivity extends AppCompatActivity {
         mType = findViewById(R.id.typeTV);
         mEx = findViewById(R.id.exTV);
 
-        mDateButton = findViewById(R.id.Date_button);
-        mTextviewTime = findViewById(R.id.tvTime);
-        mRadioGroup = findViewById(R.id.radioGroup);
-        mCostMTV = findViewById(R.id.costMTV);
-        mExMTV = findViewById(R.id.exMTV);
-        mFinishButton = findViewById(R.id.finish_button);
-        mCancelButton = findViewById(R.id.cancel_button);
+        mDateButton = findViewById(R.id.detail_Date_button);
+        mTextviewTime = findViewById(R.id.detail_tvTime);
+        mRadioGroup = findViewById(R.id.detail_radioGroup);
+        mCostMTV = findViewById(R.id.detail_costMTV);
+        mExMTV = findViewById(R.id.detail_exMTV);
+        mFinishButton = findViewById(R.id.detail_finish_button);
+        mCancelButton = findViewById(R.id.detail_cancel_button);
 
         Intent intent = getIntent();
         data = intent.getStringExtra(DATA);
@@ -88,11 +88,16 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     public void ClickRevise(View view) {
+        String[] arr = data.split(SPLIT_CHAR2);
         mDateButton.setVisibility(View.VISIBLE);
         mTextviewTime.setVisibility(View.VISIBLE);
+        mTextviewTime.setText(arr[0]);
+        timeMessage = arr[0];
         mRadioGroup.setVisibility(View.VISIBLE);
         mCostMTV.setVisibility(View.VISIBLE);
+        mCostMTV.setText(arr[2]);
         mExMTV.setVisibility(View.VISIBLE);
+        mExMTV.setText(arr[3]);
         mFinishButton.setVisibility(View.VISIBLE);
         mCancelButton.setVisibility(View.VISIBLE);
     }
@@ -109,7 +114,7 @@ public class DetailActivity extends AppCompatActivity {
     public void ClickApply(View view) {
         Intent req = getIntent();
         String position = req.getStringExtra(POSITION);
-
+        String time = mTextviewTime.getText().toString();
         String cost = mCostMTV.getText().toString();
         String ex = mExMTV.getText().toString();
         if(Objects.equals(cost, "")){
