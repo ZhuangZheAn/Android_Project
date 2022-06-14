@@ -21,10 +21,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.LinkedList;
@@ -32,6 +34,8 @@ import java.util.Objects;
 
 public class WordListAdapter extends
         RecyclerView.Adapter<WordListAdapter.WordViewHolder> {
+
+
 
     private final LinkedList<String> mWordList;
     private final LayoutInflater mInflater;
@@ -41,25 +45,25 @@ public class WordListAdapter extends
     private static final String INCOME = "income";
     private static final String DATA = "data";
 
-    class WordViewHolder extends RecyclerView.ViewHolder
-            implements View.OnClickListener {
+    private String datas;
+
+    class WordViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public final TextView wordItemView;
         public final TextView mbalance;
+        public TextView mTextView;
         final WordListAdapter mAdapter;
 
         public WordViewHolder(View itemView, WordListAdapter adapter) {
             super(itemView);
             wordItemView = itemView.findViewById(R.id.word);
             mbalance = itemView.findViewById(R.id.balance);
+            mTextView = itemView.findViewById(R.id.text);
             this.mAdapter = adapter;
-            itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            // Get the position of the item that was clicked.
             int mPosition = getLayoutPosition();
-
             // Use that to access the affected item in mWordList.
             String element = mWordList.get(mPosition);
             // Change the word in the mWordList.
@@ -67,19 +71,16 @@ public class WordListAdapter extends
             Intent intent = new Intent(view.getContext(), DetailActivity.class);
             intent.putExtra(DATA,element);
             view.getContext().startActivity(intent);
-
             mAdapter.notifyDataSetChanged();
         }
     }
-
     public WordListAdapter(Context context, LinkedList<String> wordList) {
         mInflater = LayoutInflater.from(context);
         this.mWordList = wordList;
     }
 
     @Override
-    public WordListAdapter.WordViewHolder onCreateViewHolder(ViewGroup parent,
-                                                             int viewType) {
+    public WordListAdapter.WordViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // Inflate an item view.
         View mItemView = mInflater.inflate(
                 R.layout.wordlist_item, parent, false);
@@ -91,8 +92,9 @@ public class WordListAdapter extends
     public void onBindViewHolder(WordListAdapter.WordViewHolder holder,
                                  int position) {
         String mCurrent = mWordList.get(position);
-        String[] arr = mCurrent.split(SPLIT_CHAR2);
 
+        String[] arr = mCurrent.split(SPLIT_CHAR2);
+        datas = arr[2];
         if(Objects.equals(arr[1], EXPENSE)){
             holder.mbalance.setText("支出 " + arr[2] + " $");
             if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {

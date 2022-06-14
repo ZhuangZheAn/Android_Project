@@ -13,6 +13,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Collections;
@@ -33,12 +35,15 @@ public class MainActivity extends AppCompatActivity {
     private static final String SPLIT_CHAR = "!@";
     private static final String SPLIT_CHAR2 = "#%";
     private static final String NEW_KEY = "New";
+    private static final String REQ_KEY = "New";
+
     private SharedPreferences mPreferences;
     private String sharedPrefFile =
             "com.example.android.recyclerview";
     private String datas;
     private Integer data_size;
 
+    private String MoreInfoDatas;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String req = intent.getStringExtra(MainActivity.NEW_KEY);
+        MoreInfoDatas = req;
         data_size = mPreferences.getInt(DATASIZE_KEY,0);
         datas = mPreferences.getString(DATAS_KEY,"");
         if(req != null){
@@ -106,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
         }
         //makeToast(Integer.toString(data_size);
 
+
     }
 
     public void reset(View view) {
@@ -140,7 +147,18 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog alert = builder.create();
         alert.show();
     }
-
+    /*
+    public void moreInfo(View view) {
+        TextView list = findViewById(R.id.word);
+        list.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent( MainActivity.this, WordListAdapter.class);
+                intent.putExtra(REQ_KEY, MoreInfoDatas);
+                startActivity(intent);
+            }
+        });
+    }*/
     public void makeToast(String message){
         Toast.makeText(this, message,Toast.LENGTH_SHORT).show();
     }
