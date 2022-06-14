@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="visible"
+    tools:context=".DetailActivity">
+
+    <TextView
+        android:id="@+id/dateTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="22sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/typeTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="22sp"
+        app:layout_constraintStart_toStartOf="@+id/dateTV"
+        app:layout_constraintTop_toBottomOf="@+id/dateTV" />
+
+    <TextView
+        android:id="@+id/balanceTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="22sp"
+        app:layout_constraintStart_toStartOf="@+id/typeTV"
+        app:layout_constraintTop_toBottomOf="@+id/typeTV" />
+
+    <TextView
+        android:id="@+id/exTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="22sp"
+        app:layout_constraintStart_toStartOf="@+id/balanceTV"
+        app:layout_constraintTop_toBottomOf="@+id/balanceTV" />
+
+    <Button
+        android:id="@+id/revise_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="ClickRevise"
+        android:text="@string/revise_btn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/exTV"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/detail_Date_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="ClickDate"
+        android:text="@string/date"
+        android:textSize="20sp"
+        android:visibility="invisible"
+        app:layout_constraintTop_toBottomOf="@+id/revise_btn" />
+
+    <TextView
+        android:id="@+id/detail_tvTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/time"
+        android:textSize="24sp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="@+id/detail_Date_button"
+        app:layout_constraintTop_toBottomOf="@+id/detail_Date_button" />
+
+    <RadioGroup
+        android:id="@+id/detail_radioGroup"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="24dp"
+        android:orientation="horizontal"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/detail_tvTime"
+        app:layout_constraintTop_toBottomOf="@+id/detail_tvTime">
+
+        <RadioButton
+            android:id="@+id/detail_expenseRB"
+            android:layout_width="80dp"
+            android:layout_height="48dp"
+            android:checked="true"
+            android:onClick="onRadioButtonClicked"
+            android:text="@string/expense"
+            tools:ignore="TextContrastCheck" />
+
+        <RadioButton
+            android:id="@+id/detail_incomeRB"
+            android:layout_width="80dp"
+            android:layout_height="48dp"
+            android:onClick="onRadioButtonClicked"
+            android:text="@string/income"
+            tools:ignore="TextContrastCheck" />
+
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/detail_costMTV"
+        android:layout_width="0dp"
+        android:layout_height="51dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/hint_costMTV"
+        android:inputType="number"
+        android:textColorHint="#546E7A"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detail_radioGroup" />
+
+    <EditText
+        android:id="@+id/detail_exMTV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autofillHints=""
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="@string/hint_exMTV"
+        android:inputType="textMultiLine"
+        android:minHeight="48dp"
+        android:textColorHint="#546E7A"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detail_costMTV" />
+
+    <Button
+        android:id="@+id/detail_cancel_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="ClickCancel"
+        android:text="@string/Cancel"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detail_finish_button"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/detail_finish_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="ClickApply"
+        android:text="@string/Apply"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.92" />
+
+</android.support.constraint.ConstraintLayout>
