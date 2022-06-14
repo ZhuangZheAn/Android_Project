@@ -11,6 +11,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".DetailActivity"
+            android:label="@string/Detail_name"
             android:exported="false"
             android:parentActivityName=".MainActivity">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
@@ -18,6 +19,7 @@
         </activity>
         <activity
             android:name=".SecondActivity"
+            android:label="@string/Second_name"
             android:exported="false"
             android:screenOrientation="portrait"
             android:parentActivityName=".MainActivity">

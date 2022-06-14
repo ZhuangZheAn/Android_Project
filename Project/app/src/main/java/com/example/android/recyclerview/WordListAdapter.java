@@ -45,11 +45,11 @@ public class WordListAdapter extends
 
     private static final String EXPENSE = "expense";
     private static final String INCOME = "income";
+    /*Input Keys*/
+
+    /*Output Keys*/
     private static final String DATA = "data";
     private static final String POSITION = "position";
-
-
-    private String datas;
 
     class WordViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public final TextView wordItemView;
@@ -95,9 +95,7 @@ public class WordListAdapter extends
     public void onBindViewHolder(WordListAdapter.WordViewHolder holder,
                                  int position) {
         String mCurrent = mWordList.get(position);
-
         String[] arr = mCurrent.split(SPLIT_CHAR2);
-        datas = arr[2];
         if(Objects.equals(arr[1], EXPENSE)){
             holder.mbalance.setText("- " + arr[2] + " $");
             if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {

@@ -1,6 +1,7 @@
 package com.example.android.recyclerview;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -32,7 +33,10 @@ public class SecondActivity extends AppCompatActivity{
     private String second_string;
     private String timeMessage;
     private String expenseOrIncome;
+    /*Output Keys*/
     private static final String NEW_KEY = "New";
+    private static final String ACT_KEY = "Activity";
+
     private static final String SPLIT_CHAR2 = "#%";
     private static final String EXPENSE = "expense";
     private static final String INCOME = "income";
@@ -68,7 +72,8 @@ public class SecondActivity extends AppCompatActivity{
             if(Objects.equals(ex, "")) ex = "no message";
             String extra = timeMessage + SPLIT_CHAR2 + expenseOrIncome + SPLIT_CHAR2 + cost + SPLIT_CHAR2 + ex;
             Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra(NEW_KEY,extra);
+            intent.putExtra(NEW_KEY, extra);
+            intent.putExtra(ACT_KEY, "SecondActivity");
             startActivity(intent);
         }
     }
@@ -182,7 +187,4 @@ public class SecondActivity extends AppCompatActivity{
                 break;
         }
     }
-
-
-
 }

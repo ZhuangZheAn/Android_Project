@@ -16,12 +16,15 @@
 
 <resources>
     <string name="app_name">Accounting-Assistant</string>
+    <string name="Second_name">NEW</string>
+    <string name="Detail_name">DETAIL</string>
     <string name="action_settings">Settings</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="now">取得現在時間</string>
     <string name="time">Time</string>
     <string name="timeTV">時間：</string>
     <string name="finish">finish</string>
+    <string name="Apply">Apply</string>
     <string name="ex">備註：</string>
     <string name="date">選擇時間</string>
     <string name="purpose">目的：</string>
@@ -35,4 +38,5 @@
     <string name="incomeRB_toast">選擇金額類型:收入</string>
     <string name="split_char2">#$</string>
     <string name="voice_cost">voice_cost</string>
+    <string name="revise_btn">修改</string>
 </resources>
