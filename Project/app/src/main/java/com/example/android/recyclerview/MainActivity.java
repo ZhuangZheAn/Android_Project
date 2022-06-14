@@ -147,19 +147,18 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog alert = builder.create();
         alert.show();
     }
-
+    /*
     public void moreInfo(View view) {
         TextView list = findViewById(R.id.word);
         list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent( MainActivity.this, MoreInfoActivity.class);
+                Intent intent = new Intent( MainActivity.this, WordListAdapter.class);
                 intent.putExtra(REQ_KEY, MoreInfoDatas);
                 startActivity(intent);
             }
         });
-    }
-
+    }*/
     public void makeToast(String message){
         Toast.makeText(this, message,Toast.LENGTH_SHORT).show();
     }
