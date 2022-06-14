@@ -18,9 +18,11 @@ package com.example.android.recyclerview;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -44,21 +46,22 @@ public class WordListAdapter extends
     private static final String EXPENSE = "expense";
     private static final String INCOME = "income";
     private static final String DATA = "data";
+    private static final String POSITION = "position";
+
 
     private String datas;
 
     class WordViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public final TextView wordItemView;
         public final TextView mbalance;
-        public TextView mTextView;
         final WordListAdapter mAdapter;
 
         public WordViewHolder(View itemView, WordListAdapter adapter) {
             super(itemView);
             wordItemView = itemView.findViewById(R.id.word);
             mbalance = itemView.findViewById(R.id.balance);
-            mTextView = itemView.findViewById(R.id.text);
             this.mAdapter = adapter;
+            itemView.setOnClickListener(this);
         }
 
         @Override
@@ -67,9 +70,9 @@ public class WordListAdapter extends
             // Use that to access the affected item in mWordList.
             String element = mWordList.get(mPosition);
             // Change the word in the mWordList.
-
             Intent intent = new Intent(view.getContext(), DetailActivity.class);
             intent.putExtra(DATA,element);
+            intent.putExtra(POSITION,mPosition);
             view.getContext().startActivity(intent);
             mAdapter.notifyDataSetChanged();
         }
@@ -96,7 +99,7 @@ public class WordListAdapter extends
         String[] arr = mCurrent.split(SPLIT_CHAR2);
         datas = arr[2];
         if(Objects.equals(arr[1], EXPENSE)){
-            holder.mbalance.setText("支出 " + arr[2] + " $");
+            holder.mbalance.setText("- " + arr[2] + " $");
             if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
                 holder.mbalance.setBackgroundDrawable(ContextCompat.getDrawable(holder.mbalance.getContext(), R.drawable.expense_background) );
             } else {
@@ -104,7 +107,7 @@ public class WordListAdapter extends
             }
         }
         else{
-            holder.mbalance.setText("收入 " + arr[2] + " $");
+            holder.mbalance.setText("+ " + arr[2] + " $");
             if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
                 holder.mbalance.setBackgroundDrawable(ContextCompat.getDrawable(holder.mbalance.getContext(), R.drawable.income_background) );
             } else {
