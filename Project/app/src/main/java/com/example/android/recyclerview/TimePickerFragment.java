@@ -20,7 +20,9 @@ public class TimePickerFragment extends DialogFragment
 
     @Override
     public void onTimeSet(TimePicker TimePicker, int year , int month){
-        SecondActivity activity = (SecondActivity) getActivity();
-        activity.processTimePickerResult(year, month);
+        SecondActivity secondactivity = (SecondActivity) getActivity();
+        secondactivity.processTimePickerResult(year, month);
+        DetailActivity detailActivity =(DetailActivity) getActivity();
+        detailActivity.processTimePickerResult(year, month);
     }
 }

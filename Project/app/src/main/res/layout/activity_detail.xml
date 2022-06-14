@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:visibility="visible"
     tools:context=".DetailActivity">
 
     <TextView
@@ -46,8 +47,8 @@
         android:id="@+id/revise_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/revise_btn"
         android:onClick="ClickRevise"
+        android:text="@string/revise_btn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -137,19 +138,31 @@
         app:layout_constraintTop_toBottomOf="@+id/costMTV" />
 
     <Button
-        android:id="@+id/finish_button"
-        android:layout_width="match_parent"
+        android:id="@+id/cancel_button"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="4dp"
-        android:onClick="ClickApply"
-        android:text="@string/Apply"
+        android:onClick="ClickCancel"
+        android:text="@string/Cancel"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/finish_button"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/finish_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="ClickApply"
+        android:text="@string/Apply"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.92" />
 
 </android.support.constraint.ConstraintLayout>

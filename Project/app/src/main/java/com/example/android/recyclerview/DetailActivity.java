@@ -9,8 +9,10 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,22 +29,37 @@ public class DetailActivity extends AppCompatActivity {
     /*Output Keys*/
     private static final String NEW_KEY = "New";
     private static final String POS_KEY = "Pos";
+    private static final String ACT_KEY = "Activity";
 
     private static final String EXPENSE = "expense";
     private static final String INCOME = "income";
     private static final int REQUEST_COST_VOICE = 0;
     private static final int REQUEST_EX_VOICE = 1;
     private static final String SPLIT_CHAR2 = "#%";
+
     private TextView mDate;
     private TextView mBalance;
     private TextView mType;
     private TextView mEx;
 
+    private Button mDateButton;
     private TextView mTextviewTime;
+    private RadioGroup mRadioGroup;
     private EditText mCostMTV;
     private EditText mExMTV;
+    private Button mFinishButton;
+    private Button mCancelButton;
+
     private String timeMessage;
     private String expenseOrIncome;
+    private String data;
+
+    private String month_string;
+    private String day_string;
+    private String year_string;
+    private String hour_string;
+    private String minute_string;
+    private String second_string;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +69,18 @@ public class DetailActivity extends AppCompatActivity {
         mBalance = findViewById(R.id.balanceTV);
         mType = findViewById(R.id.typeTV);
         mEx = findViewById(R.id.exTV);
+
+        mDateButton = findViewById(R.id.Date_button);
+        mTextviewTime = findViewById(R.id.tvTime);
+        mRadioGroup = findViewById(R.id.radioGroup);
+        mCostMTV = findViewById(R.id.costMTV);
+        mExMTV = findViewById(R.id.exMTV);
+        mFinishButton = findViewById(R.id.finish_button);
+        mCancelButton = findViewById(R.id.cancel_button);
+
         Intent intent = getIntent();
-        String element = intent.getStringExtra(DATA);
-        String position = intent.getStringExtra(POSITION);
-        String[] arr = element.split(SPLIT_CHAR2);
+        data = intent.getStringExtra(DATA);
+        String[] arr = data.split(SPLIT_CHAR2);
         mDate.setText(arr[0]);
         mType.setText(arr[1]);
         mBalance.setText(arr[2]);
@@ -63,9 +88,28 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     public void ClickRevise(View view) {
+        mDateButton.setVisibility(View.VISIBLE);
+        mTextviewTime.setVisibility(View.VISIBLE);
+        mRadioGroup.setVisibility(View.VISIBLE);
+        mCostMTV.setVisibility(View.VISIBLE);
+        mExMTV.setVisibility(View.VISIBLE);
+        mFinishButton.setVisibility(View.VISIBLE);
+        mCancelButton.setVisibility(View.VISIBLE);
+    }
+    public void ClickCancel(View view) {
+        mDateButton.setVisibility(View.INVISIBLE);
+        mTextviewTime.setVisibility(View.INVISIBLE);
+        mRadioGroup.setVisibility(View.INVISIBLE);
+        mCostMTV.setVisibility(View.INVISIBLE);
+        mExMTV.setVisibility(View.INVISIBLE);
+        mFinishButton.setVisibility(View.INVISIBLE);
+        mCancelButton.setVisibility(View.INVISIBLE);
     }
 
     public void ClickApply(View view) {
+        Intent req = getIntent();
+        String position = req.getStringExtra(POSITION);
+
         String cost = mCostMTV.getText().toString();
         String ex = mExMTV.getText().toString();
         if(Objects.equals(cost, "")){
@@ -85,7 +129,8 @@ public class DetailActivity extends AppCompatActivity {
             String extra = timeMessage + SPLIT_CHAR2 + expenseOrIncome + SPLIT_CHAR2 + cost + SPLIT_CHAR2 + ex;
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra(NEW_KEY,extra);
-            intent.putExtra(POS_KEY,extra);
+            intent.putExtra(POS_KEY,position);
+            intent.putExtra(ACT_KEY,"DetailActivity");
             startActivity(intent);
         }
     }
@@ -114,10 +159,28 @@ public class DetailActivity extends AppCompatActivity {
         Time.show(getSupportFragmentManager(),"timePicker");
         DatePickerFragment Date = new DatePickerFragment();
         Date.show(getSupportFragmentManager(),"datePicker");
+
+    }
+    public void makeToast(String msg){ Toast.makeText(this, msg, Toast.LENGTH_SHORT).show(); }
+
+    @SuppressLint("DefaultLocale")
+    public void processDatePickerResult(int year, int month, int day){
+        month_string = String.format("%02d", month + 1); // 月份使從0開始的，要加1
+        day_string = String.format("%02d", day);
+        year_string = String.format("%04d", year);
     }
 
+    @SuppressLint("DefaultLocale")
+    public void processTimePickerResult(int hour, int minute){
+        hour_string = String.format("%02d",hour);
+        minute_string = String.format("%02d", minute);
+        second_string = "00";
+        timeMessage = year_string + "/" + month_string + "/" + day_string + " "
+                + hour_string + ":" + minute_string + ":" + second_string;
+        mTextviewTime.setText(timeMessage);
+        makeToast("已更新時間為\n" + timeMessage);
+    }
 
-    public void makeToast(String msg){ Toast.makeText(this, msg, Toast.LENGTH_SHORT).show(); }
     @SuppressLint("NonConstantResourceId")
     public void onRadioButtonClicked(View view) {
         boolean checked = ((RadioButton) view).isChecked();

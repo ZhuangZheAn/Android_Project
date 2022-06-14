@@ -21,7 +21,9 @@ public class DatePickerFragment extends DialogFragment
 
     @Override
     public void onDateSet(DatePicker datePicker,int year , int month, int day){
-        SecondActivity activity = (SecondActivity) getActivity();
-        activity.processDatePickerResult(year, month, day);
+        SecondActivity secondactivity = (SecondActivity) getActivity();
+        secondactivity.processDatePickerResult(year, month, day);
+        DetailActivity detailActivity =(DetailActivity) getActivity();
+        detailActivity.processDatePickerResult(year, month, day);
     }
 }
