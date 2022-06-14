@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     /*Input Keys*/
     private static final String ACT_KEY = "Activity";
     private static final String NEW_KEY = "New";
+    private static final String POS_KEY = "Pos";
 
     private static final String SPLIT_CHAR = "!@";
     private static final String SPLIT_CHAR2 = "#%";
@@ -78,10 +80,11 @@ public class MainActivity extends AppCompatActivity {
 
         data_size = mPreferences.getInt(DATASIZE_KEY,0);
         datas = mPreferences.getString(DATAS_KEY,"");
-        if(req != null){
-            data_size = mPreferences.getInt(DATASIZE_KEY,0);
-            data_size += 1;
+        String callBackActivity = intent.getStringExtra(MainActivity.ACT_KEY);
 
+
+        if(Objects.equals(callBackActivity, "SecondActivity")){
+            data_size += 1;
             String[] arr = new String[data_size];
             if(datas == ""){
                 datas = req;
@@ -101,6 +104,19 @@ public class MainActivity extends AppCompatActivity {
             preferencesEditor.putString(DATAS_KEY, datas);
             preferencesEditor.apply();
         }
+        else if (Objects.equals(callBackActivity, "DetailActivity")){
+            int position = Integer.parseInt(intent.getStringExtra(POS_KEY));
+            String[] arr = datas.split(SPLIT_CHAR);
+            arr[position] = req;
+            sort(arr, Collections.reverseOrder());
+            for(int i = 0; i < data_size; i++){
+                mWordList.addLast(arr[i]);
+            }
+            SharedPreferences.Editor preferencesEditor = mPreferences.edit();
+            preferencesEditor.putInt(DATASIZE_KEY, data_size);
+            preferencesEditor.putString(DATAS_KEY, datas);
+            preferencesEditor.apply();
+        }
         else{
             if(data_size != 0){
                 String[] arr = datas.split(SPLIT_CHAR);
@@ -110,6 +126,9 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
+
+
+
         //makeToast(Integer.toString(data_size);
 
 
