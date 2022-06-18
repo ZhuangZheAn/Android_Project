@@ -95,6 +95,7 @@ public class WordListAdapter extends
     @Override
     public void onBindViewHolder(WordListAdapter.WordViewHolder holder,
                                  int position) {
+        holder.mbalance.bringToFront();
         String mCurrent = mWordList.get(position);
         String[] arr = mCurrent.split(SPLIT_CHAR2);
         if(Objects.equals(arr[1], EXPENSE)){

@@ -17,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Objects;
@@ -124,6 +126,7 @@ public class ListAllFragment extends Fragment{
                 }
             }
         } else{
+            Toast.makeText(view.getContext(),"ACT:" + cb_activity,Toast.LENGTH_LONG).show();
             data_size = mPreferences.getInt(DATASIZE_KEY,0);
             switch (cb_activity){
                 case "SecondActivity":
@@ -137,7 +140,8 @@ public class ListAllFragment extends Fragment{
                         datas += SPLIT_CHAR + req;
                         arr = datas.split(SPLIT_CHAR);
 
-                        sort(arr, Collections.reverseOrder());
+                        sort(arr);
+                        Collections.reverse(Arrays.asList(arr));
                     }
                     for(int i = 0; i < data_size; i++){
                         mWordList.addLast(arr[i]);
@@ -149,8 +153,11 @@ public class ListAllFragment extends Fragment{
                     break;
                 case "DetailActivity":
                     arr = datas.split(SPLIT_CHAR);
-                    arr[position] = req;
-                    sort(arr, Collections.reverseOrder());
+                    arr[arr.length - position - 1] = req;
+                    sort(arr);
+                    Collections.reverse(Arrays.asList(arr));
+
+
                     for(int i = 0; i < data_size; i++){
                         mWordList.addLast(arr[i]);
                         if(i == 0) datas = arr[i];
@@ -162,7 +169,7 @@ public class ListAllFragment extends Fragment{
                     preferencesEditor.apply();
                     break;
                 default:
-                    Toast.makeText(view.getContext(),"UNDEFINE ACTIVITY",Toast.LENGTH_SHORT);
+                    Toast.makeText(view.getContext(),"UNDEFINE ACTIVITY",Toast.LENGTH_LONG);
                     break;
             }
             intent.putExtra(ACT_KEY,"");

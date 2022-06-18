@@ -1,10 +1,13 @@
 package com.example.android.recyclerview;
 
+import android.app.FragmentManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -28,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         TabLayout tabLayout = findViewById(R.id.tab_layout);
 // Set the text for each tab.
-        tabLayout.addTab(tabLayout.newTab().setText("All"));
         tabLayout.addTab(tabLayout.newTab().setText("支出"));
+        tabLayout.addTab(tabLayout.newTab().setText("All"));
         tabLayout.addTab(tabLayout.newTab().setText("收入"));
 // Set the tabs to fill the entire layout.
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
@@ -54,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
                public void onTabReselected(TabLayout.Tab tab) {
                }
            });
+        viewPager.setCurrentItem(1);
 
     }
 
@@ -68,15 +72,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
-        SharedPreferences.Editor preferencesEditor = mPreferences.edit();
-        preferencesEditor.putInt(getResources().getString(R.string.firstTimeOnCreate), 0);
-        preferencesEditor.apply();
-        super.onDestroy();
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case 0:
@@ -87,9 +82,37 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case 1:
                 makeToast("前往刪除頁面");
-//                intent = new Intent(MainActivity.this, SecondActivity.class);
-//                intent.putExtra(EXTRA_MESSAGE, "mOrderMessage");
-//                startActivity(intent);
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("警告!!");
+                builder.setMessage("這個動作會刪除所有已儲存的資料");
+                builder.setCancelable(true);
+
+                builder.setPositiveButton(
+                        "取消",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                makeToast("取消操作");
+                                dialog.cancel();
+                            }
+                        });
+
+                builder.setNegativeButton(
+                        "確定",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+//                                mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+//                                SharedPreferences.Editor preferencesEditor = mPreferences.edit();
+//                                preferencesEditor.clear();
+//                                preferencesEditor.apply();
+//                                mWordList.clear();
+//                                mRecyclerView.setAdapter(mAdapter);
+                                makeToast("已刪除所有資料");
+                                dialog.cancel();
+                            }
+                        });
+
+                AlertDialog alert = builder.create();
+                alert.show();
                 return true;
             default:
                 // Do nothing
@@ -98,36 +121,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void reset(View view) {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setTitle("警告!!");
-//        builder.setMessage("這個動作會刪除所有已儲存的資料");
-//        builder.setCancelable(true);
-//
-//        builder.setPositiveButton(
-//                "取消",
-//                new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        makeToast("取消操作");
-//                        dialog.cancel();
-//                    }
-//                });
-//
-//        builder.setNegativeButton(
-//                "確定",
-//                new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        SharedPreferences.Editor preferencesEditor = mPreferences.edit();
-//                        preferencesEditor.clear();
-//                        preferencesEditor.apply();
-//                        mWordList.clear();
-//                        mRecyclerView.setAdapter(mAdapter);
-//                        makeToast("已刪除所有資料");
-//                        dialog.cancel();
-//                    }
-//                });
-//
-//        AlertDialog alert = builder.create();
-//        alert.show();
+
     }
     public void makeToast(String message){
         Toast.makeText(this, message,Toast.LENGTH_SHORT).show();

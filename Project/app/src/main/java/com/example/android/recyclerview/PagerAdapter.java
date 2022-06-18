@@ -14,8 +14,8 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         switch (position) {
-            case 0: return new ListAllFragment();
-            case 1: return new ListExpenseFragment();
+            case 0: return new ListExpenseFragment();
+            case 1: return new ListAllFragment();
             case 2: return new ListIncomeFragment();
             default: return null;
         }
