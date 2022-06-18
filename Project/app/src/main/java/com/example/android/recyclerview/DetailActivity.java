@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -42,6 +43,8 @@ public class DetailActivity extends AppCompatActivity {
     private TextView mBalance;
     private TextView mType;
     private TextView mEx;
+    private TextView mCostTV;
+    private TextView mExTV;
 
     private Button mDateButton;
     private TextView mTextviewTime;
@@ -62,6 +65,9 @@ public class DetailActivity extends AppCompatActivity {
     private String minute_string;
     private String second_string;
 
+    private boolean flag;
+
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +76,8 @@ public class DetailActivity extends AppCompatActivity {
         mBalance = findViewById(R.id.balanceTV);
         mType = findViewById(R.id.typeTV);
         mEx = findViewById(R.id.exTV);
+        mCostTV = findViewById(R.id.textViewCost);
+        mExTV = findViewById(R.id.textViewEx);
         Toolbar toolbar = findViewById(R.id.Detail_toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar=getSupportActionBar();
@@ -81,31 +89,47 @@ public class DetailActivity extends AppCompatActivity {
         mExMTV = findViewById(R.id.detail_exMTV);
         mFinishButton = findViewById(R.id.detail_finish_button);
         mCancelButton = findViewById(R.id.detail_cancel_button);
-
+        flag = true;
         Intent intent = getIntent();
         data = intent.getStringExtra(DATA);
         String[] arr = data.split(SPLIT_CHAR2);
         mDate.setText(arr[0]);
-        mType.setText(arr[1]);
-        mBalance.setText(arr[2]);
-        mEx.setText(arr[3]);
+        String type = getResources().getString(R.string.typeTV);
+        if(Objects.equals(arr[1], "expense")) type += getResources().getString(R.string.expense);
+        else if(Objects.equals(arr[1], "income")) type += getResources().getString(R.string.income);
+        mType.setText(type);
+        mBalance.setText(getResources().getString(R.string.costTV) + arr[2]);
+        mEx.setText(getResources().getString(R.string.ex) + arr[3]);
+
     }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-        /**itemId為稍後判斷點擊事件要用的*/
-        menu.add(0,0,1,"").setIcon(R.drawable.ic_revise).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-        menu.add(0,1,0,"").setIcon(R.drawable.ic_back).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-        return super.onCreateOptionsMenu(menu);
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu)
+    {
+        MenuInflater myMenuInflater = getMenuInflater();
+        if(flag)
+        {
+            myMenuInflater.inflate(R.menu.detail_menu1, menu);
+        } else {
+            myMenuInflater.inflate(R.menu.detail_menu2, menu); // here you show the other menu
+        }
+        invalidateOptionsMenu();
+        return true;
     }
 
+    @SuppressLint("NonConstantResourceId")
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case 0:
+            case R.id.revise:
+                flag = false;
                 String[] arr = data.split(SPLIT_CHAR2);
                 mDate.setVisibility(View.INVISIBLE);
                 mType.setVisibility(View.INVISIBLE);
                 mBalance.setVisibility(View.INVISIBLE);
                 mEx.setVisibility(View.INVISIBLE);
+                mCostTV.setVisibility(View.VISIBLE);
+                mExTV.setVisibility(View.VISIBLE);
                 mDateButton.setVisibility(View.VISIBLE);
                 mTextviewTime.setVisibility(View.VISIBLE);
                 mTextviewTime.setText(arr[0]);
@@ -118,9 +142,49 @@ public class DetailActivity extends AppCompatActivity {
                 mFinishButton.setVisibility(View.VISIBLE);
                 mCancelButton.setVisibility(View.VISIBLE);
                 return true;
-            case 1:
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
+            case R.id.check:
+                flag = true;
+                Intent req = getIntent();
+                int position = req.getIntExtra(POSITION,0);
+                String cost = mCostMTV.getText().toString();
+                String ex = mExMTV.getText().toString();
+                if(Objects.equals(cost, "")){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setTitle("提醒");
+                    builder.setMessage("金額不可留空");
+                    builder.setCancelable(true);
+                    builder.setPositiveButton(
+                            "我知道了",
+                            (dialog, id) -> dialog.cancel());
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
+                else{
+                    if(expenseOrIncome == null) expenseOrIncome = EXPENSE;
+                    if(Objects.equals(ex, "")) ex = "no message";
+                    String extra = timeMessage + SPLIT_CHAR2 + expenseOrIncome + SPLIT_CHAR2 + cost + SPLIT_CHAR2 + ex;
+                    Intent intent = new Intent(this, MainActivity.class);
+                    intent.putExtra(NEW_KEY,extra);
+                    intent.putExtra(POS_KEY,position);
+                    intent.putExtra(ACT_KEY,"DetailActivity");
+                    startActivity(intent);
+                }
+                return true;
+            case R.id.cancel:
+                flag = true;
+                mDate.setVisibility(View.VISIBLE);
+                mType.setVisibility(View.VISIBLE);
+                mBalance.setVisibility(View.VISIBLE);
+                mEx.setVisibility(View.VISIBLE);
+                mCostTV.setVisibility(View.INVISIBLE);
+                mExTV.setVisibility(View.INVISIBLE);
+                mDateButton.setVisibility(View.INVISIBLE);
+                mTextviewTime.setVisibility(View.INVISIBLE);
+                mRadioGroup.setVisibility(View.INVISIBLE);
+                mCostMTV.setVisibility(View.INVISIBLE);
+                mExMTV.setVisibility(View.INVISIBLE);
+                mFinishButton.setVisibility(View.INVISIBLE);
+                mCancelButton.setVisibility(View.INVISIBLE);
                 return true;
             default:
                 // Do nothing
@@ -130,45 +194,11 @@ public class DetailActivity extends AppCompatActivity {
 
 
     public void ClickCancel(View view) {
-        mDate.setVisibility(View.VISIBLE);
-        mType.setVisibility(View.VISIBLE);
-        mBalance.setVisibility(View.VISIBLE);
-        mEx.setVisibility(View.VISIBLE);
-        mDateButton.setVisibility(View.INVISIBLE);
-        mTextviewTime.setVisibility(View.INVISIBLE);
-        mRadioGroup.setVisibility(View.INVISIBLE);
-        mCostMTV.setVisibility(View.INVISIBLE);
-        mExMTV.setVisibility(View.INVISIBLE);
-        mFinishButton.setVisibility(View.INVISIBLE);
-        mCancelButton.setVisibility(View.INVISIBLE);
+
     }
 
     public void ClickApply(View view) {
-        Intent req = getIntent();
-        int position = req.getIntExtra(POSITION,0);
-        String cost = mCostMTV.getText().toString();
-        String ex = mExMTV.getText().toString();
-        if(Objects.equals(cost, "")){
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("提醒");
-            builder.setMessage("金額不可留空");
-            builder.setCancelable(true);
-            builder.setPositiveButton(
-                    "我知道了",
-                    (dialog, id) -> dialog.cancel());
-            AlertDialog alert = builder.create();
-            alert.show();
-        }
-        else{
-            if(expenseOrIncome == null) expenseOrIncome = EXPENSE;
-            if(Objects.equals(ex, "")) ex = "no message";
-            String extra = timeMessage + SPLIT_CHAR2 + expenseOrIncome + SPLIT_CHAR2 + cost + SPLIT_CHAR2 + ex;
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra(NEW_KEY,extra);
-            intent.putExtra(POS_KEY,position);
-            intent.putExtra(ACT_KEY,"DetailActivity");
-            startActivity(intent);
-        }
+
     }
 
     @Override

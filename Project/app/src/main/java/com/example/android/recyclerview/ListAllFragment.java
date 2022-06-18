@@ -153,7 +153,7 @@ public class ListAllFragment extends Fragment{
                     break;
                 case "DetailActivity":
                     arr = datas.split(SPLIT_CHAR);
-                    arr[arr.length - position - 1] = req;
+                    arr[data_size - position - 1] = req;
                     sort(arr);
                     Collections.reverse(Arrays.asList(arr));
 

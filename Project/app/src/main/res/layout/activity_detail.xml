@@ -66,7 +66,7 @@
 
     <RadioGroup
         android:id="@+id/detail_radioGroup"
-        android:layout_width="411dp"
+        android:layout_width="0dp"
         android:layout_height="50dp"
         android:orientation="horizontal"
         android:visibility="invisible"
@@ -103,8 +103,8 @@
         android:inputType="number"
         android:textColorHint="#546E7A"
         android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detail_radioGroup" />
+        app:layout_constraintStart_toEndOf="@+id/textViewCost"
+        app:layout_constraintTop_toTopOf="@+id/textViewCost" />
 
     <EditText
         android:id="@+id/detail_exMTV"
@@ -118,8 +118,8 @@
         android:minHeight="48dp"
         android:textColorHint="#546E7A"
         android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detail_costMTV" />
+        app:layout_constraintStart_toEndOf="@+id/textViewEx"
+        app:layout_constraintTop_toTopOf="@+id/textViewEx" />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -154,12 +154,33 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
+        android:theme="@style/Theme.AppCompat"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textViewCost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/costTV"
+        android:textSize="18sp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detail_radioGroup" />
+
+    <TextView
+        android:id="@+id/textViewEx"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ex"
+        android:textSize="18sp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detail_costMTV" />
 
 
 </android.support.constraint.ConstraintLayout>

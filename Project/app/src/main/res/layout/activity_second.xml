@@ -36,6 +36,26 @@
         app:layout_constraintStart_toStartOf="@+id/Date_button"
         app:layout_constraintTop_toBottomOf="@+id/Date_button" />
 
+    <TextView
+        android:id="@+id/tvTime2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/timeTV"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/costMTV"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+
+    <TextView
+        android:id="@+id/tvTime3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/costTV"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/exMTV"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/costMTV" />
+
     <RadioGroup
         android:id="@+id/radioGroup"
         android:layout_width="0dp"
@@ -96,26 +116,11 @@
         app:layout_constraintStart_toEndOf="@+id/imageView2"
         app:layout_constraintTop_toTopOf="@+id/imageView2" />
 
-    <Button
-        android:id="@+id/finish_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="4dp"
-        android:onClick="ClickFinish"
-        android:text="@string/finish"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2"
-        app:layout_constraintVertical_bias="0.101" />
-
     <ImageView
         android:id="@+id/listener"
         android:layout_width="55dp"
         android:layout_height="55dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="48dp"
         android:contentDescription="@string/voice_cost"
         android:onClick="listenerOnClick"
         app:layout_constraintStart_toStartOf="@+id/radioGroup"
@@ -126,7 +131,7 @@
         android:id="@+id/imageView2"
         android:layout_width="55dp"
         android:layout_height="55dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="48dp"
         android:onClick="listenerOnClick2"
         app:layout_constraintStart_toStartOf="@+id/listener"
         app:layout_constraintTop_toBottomOf="@+id/listener"
@@ -138,6 +143,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
+        android:theme="@style/Theme.AppCompat"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

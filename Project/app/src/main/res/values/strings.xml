@@ -23,6 +23,8 @@
     <string name="now">取得現在時間</string>
     <string name="time">Time</string>
     <string name="timeTV">時間：</string>
+    <string name="costTV">金額：</string>
+    <string name="typeTV">金額類型：</string>
     <string name="finish">finish</string>
     <string name="Apply">確定</string>
     <string name="Cancel">取消</string>

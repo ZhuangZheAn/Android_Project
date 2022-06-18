@@ -2,6 +2,7 @@ package com.example.android.recyclerview;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -12,6 +13,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -60,31 +63,117 @@ public class SecondActivity extends AppCompatActivity{
         GetNowTime();
     }
 
-    public void ClickFinish(View view) {
-        String cost = mCostMTV.getText().toString();
-        String ex = mExMTV.getText().toString();
-        if(Objects.equals(cost, "")){
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("提醒");
-            builder.setMessage("金額不可留空");
-            builder.setCancelable(true);
-            builder.setPositiveButton(
-                    "我知道了",
-                    (dialog, id) -> dialog.cancel());
-            AlertDialog alert = builder.create();
-            alert.show();
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        /**itemId為稍後判斷點擊事件要用的*/
+        menu.add(0,0,0,"").setIcon(R.drawable.ic_check).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case 0:
+                String cost = mCostMTV.getText().toString();
+                String ex = mExMTV.getText().toString();
+                if(Objects.equals(cost, "")){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setTitle("提醒");
+                    builder.setMessage("金額不可留空");
+                    builder.setCancelable(true);
+                    builder.setPositiveButton(
+                            "我知道了",
+                            (dialog, id) -> dialog.cancel());
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
+                else{
+                    if(expenseOrIncome == null) expenseOrIncome = EXPENSE;
+                    if(Objects.equals(ex, "")) ex = "no message";
+                    String extra = timeMessage + SPLIT_CHAR2 + expenseOrIncome + SPLIT_CHAR2 + cost + SPLIT_CHAR2 + ex;
+                    Intent intent = new Intent(this, MainActivity.class);
+                    intent.putExtra(NEW_KEY, extra);
+                    intent.putExtra(ACT_KEY, "SecondActivity");
+                    startActivity(intent);
+                }
+                return true;
+            default:
+                // Do nothing
         }
-        else{
-            if(expenseOrIncome == null) expenseOrIncome = EXPENSE;
-            if(Objects.equals(ex, "")) ex = "no message";
-            String extra = timeMessage + SPLIT_CHAR2 + expenseOrIncome + SPLIT_CHAR2 + cost + SPLIT_CHAR2 + ex;
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra(NEW_KEY, extra);
-            intent.putExtra(ACT_KEY, "SecondActivity");
-            startActivity(intent);
+        return super.onOptionsItemSelected(item);
+    }
+
+    //取得現在時間
+
+    public void ClickNow(View view) {
+        GetNowTime();
+        makeToast("已更新時間為\n" + timeMessage);
+    }
+
+    //選擇時間
+
+    public void ClickDate(View view) {
+        TimePickerFragment Time = new TimePickerFragment();
+        Time.show(getSupportFragmentManager(),"timePicker");
+        DatePickerFragment Date = new DatePickerFragment();
+        Date.show(getSupportFragmentManager(),"datePicker");
+    }
+
+    @SuppressLint("DefaultLocale")
+    public void processDatePickerResult(int year, int month, int day){
+        month_string = String.format("%02d", month + 1); // 月份使從0開始的，要加1
+        day_string = String.format("%02d", day);
+        year_string = String.format("%04d", year);
+    }
+
+    @SuppressLint("DefaultLocale")
+    public void processTimePickerResult(int hour, int minute){
+        hour_string = String.format("%02d",hour);
+        minute_string = String.format("%02d", minute);
+        second_string = "00";
+        timeMessage = year_string + "/" + month_string + "/" + day_string + " "
+                + hour_string + ":" + minute_string + ":" + second_string;
+        mTextviewTime.setText(timeMessage);
+        makeToast("已更新時間為\n" + timeMessage);
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    public void GetNowTime(){
+        year_string = new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime());
+        month_string = new SimpleDateFormat("MM").format(Calendar.getInstance().getTime());
+        day_string = new SimpleDateFormat("dd").format(Calendar.getInstance().getTime());
+        hour_string = new SimpleDateFormat("HH").format(Calendar.getInstance().getTime());
+        minute_string = new SimpleDateFormat("mm").format(Calendar.getInstance().getTime());
+        second_string = new SimpleDateFormat("ss").format(Calendar.getInstance().getTime());
+        timeMessage = year_string + "/" + month_string + "/" + day_string + " "
+                + hour_string + ":" + minute_string + ":" + second_string;
+        mTextviewTime.setText(timeMessage);
+    }
+
+    // radio group button
+
+    @SuppressLint("NonConstantResourceId")
+    public void onRadioButtonClicked(View view) {
+        boolean checked = ((RadioButton) view).isChecked();
+        switch (view.getId()) {
+            case R.id.expenseRB:
+                if (checked){
+                    expenseOrIncome = EXPENSE;
+                    makeToast(getString(R.string.expenseRB_toast));
+                }
+                break;
+            case R.id.incomeRB:
+                if (checked){
+                    expenseOrIncome = INCOME;
+                    makeToast(getString(R.string.incomeRB_toast));
+                }
+                break;
+            default:
+                break;
         }
     }
 
+    //語音
     public void listenerOnClick(View view) {
         displaySpeechRecognizer(REQUEST_COST_VOICE);
     }
@@ -127,71 +216,10 @@ public class SecondActivity extends AppCompatActivity{
         }
     }
 
-    public void ClickNow(View view) {
-        GetNowTime();
-        makeToast("已更新時間為\n" + timeMessage);
-    }
-
-    public void ClickDate(View view) {
-        TimePickerFragment Time = new TimePickerFragment();
-        Time.show(getSupportFragmentManager(),"timePicker");
-        DatePickerFragment Date = new DatePickerFragment();
-        Date.show(getSupportFragmentManager(),"datePicker");
-    }
-
-    @SuppressLint("DefaultLocale")
-    public void processDatePickerResult(int year, int month, int day){
-        month_string = String.format("%02d", month + 1); // 月份使從0開始的，要加1
-        day_string = String.format("%02d", day);
-        year_string = String.format("%04d", year);
-    }
-
-    @SuppressLint("DefaultLocale")
-    public void processTimePickerResult(int hour, int minute){
-        hour_string = String.format("%02d",hour);
-        minute_string = String.format("%02d", minute);
-        second_string = "00";
-        timeMessage = year_string + "/" + month_string + "/" + day_string + " "
-                + hour_string + ":" + minute_string + ":" + second_string;
-        mTextviewTime.setText(timeMessage);
-        makeToast("已更新時間為\n" + timeMessage);
-    }
-
-    @SuppressLint("SimpleDateFormat")
-    public void GetNowTime(){
-        year_string = new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime());
-        month_string = new SimpleDateFormat("MM").format(Calendar.getInstance().getTime());
-        day_string = new SimpleDateFormat("dd").format(Calendar.getInstance().getTime());
-        hour_string = new SimpleDateFormat("HH").format(Calendar.getInstance().getTime());
-        minute_string = new SimpleDateFormat("mm").format(Calendar.getInstance().getTime());
-        second_string = new SimpleDateFormat("ss").format(Calendar.getInstance().getTime());
-        timeMessage = year_string + "/" + month_string + "/" + day_string + " "
-                + hour_string + ":" + minute_string + ":" + second_string;
-        mTextviewTime.setText(timeMessage);
-    }
+    //quick make toast
 
     public void makeToast(String msg){
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
-    @SuppressLint("NonConstantResourceId")
-    public void onRadioButtonClicked(View view) {
-        boolean checked = ((RadioButton) view).isChecked();
-        switch (view.getId()) {
-            case R.id.expenseRB:
-                if (checked){
-                    expenseOrIncome = EXPENSE;
-                    makeToast(getString(R.string.expenseRB_toast));
-                }
-                break;
-            case R.id.incomeRB:
-                if (checked){
-                    expenseOrIncome = INCOME;
-                    makeToast(getString(R.string.incomeRB_toast));
-                }
-                break;
-            default:
-                break;
-        }
-    }
 }
