@@ -4,12 +4,10 @@ import static android.content.Context.MODE_PRIVATE;
 
 import static java.util.Arrays.sort;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,11 +15,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
-import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,9 +35,9 @@ public class ListAllFragment extends Fragment{
     private String mParam1;
     private String mParam2;
 
-    private final LinkedList<String> mWordList = new LinkedList<>();
-    private RecyclerView mRecyclerView;
-    private WordListAdapter mAdapter;
+    public final LinkedList<String> mWordList = new LinkedList<>();
+    public RecyclerView mRecyclerView;
+    public WordListAdapter mAdapter;
     private static final String DATASIZE_KEY = "DataSize";
     private static final String DATAS_KEY = "Datas";
     /*Input Keys*/
@@ -155,28 +151,28 @@ public class ListAllFragment extends Fragment{
                     arr = datas.split(SPLIT_CHAR);
                     arr[data_size - position - 1] = req;
                     sort(arr);
+                    datas = arr[0];
+                    for(int i = 1; i < data_size; i++){
+                        datas += SPLIT_CHAR + arr[i];
+                    }
+                    preferencesEditor.putString(DATAS_KEY, datas);
+                    preferencesEditor.apply();
                     Collections.reverse(Arrays.asList(arr));
-
-
                     for(int i = 0; i < data_size; i++){
                         mWordList.addLast(arr[i]);
                         if(i == 0) datas = arr[i];
                         else datas += SPLIT_CHAR + arr[i];
                     }
-
-
-                    preferencesEditor.putString(DATAS_KEY, datas);
-                    preferencesEditor.apply();
                     break;
                 default:
-                    Toast.makeText(view.getContext(),"UNDEFINE ACTIVITY",Toast.LENGTH_LONG);
+                    Toast.makeText(view.getContext(),"UNDEFINE ACTIVITY",Toast.LENGTH_LONG).show();
                     break;
             }
             intent.putExtra(ACT_KEY,"");
         }
-
+    }
+    public void clear(){
+        mWordList.clear();
+        mRecyclerView.setAdapter(mAdapter);
     }
 }
-//    mRecyclerView = (RecyclerView) getView().findViewById(R.id.RV);
-//
-//

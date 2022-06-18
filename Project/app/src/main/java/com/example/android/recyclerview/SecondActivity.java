@@ -61,6 +61,12 @@ public class SecondActivity extends AppCompatActivity{
         mExMTV = findViewById(R.id.exMTV);
         mTextviewTime = findViewById(R.id.tvTime);
         GetNowTime();
+        Intent intent = getIntent();
+        String tmp = intent.getStringExtra("tmp");
+        if(Objects.equals(tmp, "back")){
+            Intent intent1 = new Intent(SecondActivity.this,MainActivity.class);
+            startActivity(intent1);
+        }
     }
 
     @Override

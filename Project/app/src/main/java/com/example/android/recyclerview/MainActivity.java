@@ -15,6 +15,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import java.util.Objects;
+
 public class MainActivity extends AppCompatActivity {
 
     public static final String EXTRA_MESSAGE = "com.example.android.droidcafeoptions.extra.MESSAGE";
@@ -100,12 +102,13 @@ public class MainActivity extends AppCompatActivity {
                         "確定",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-//                                mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
-//                                SharedPreferences.Editor preferencesEditor = mPreferences.edit();
-//                                preferencesEditor.clear();
-//                                preferencesEditor.apply();
-//                                mWordList.clear();
-//                                mRecyclerView.setAdapter(mAdapter);
+                                mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+                                SharedPreferences.Editor preferencesEditor = mPreferences.edit();
+                                preferencesEditor.clear();
+                                preferencesEditor.apply();
+                                Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+                                intent.putExtra("tmp","back");
+                                startActivity(intent);
                                 makeToast("已刪除所有資料");
                                 dialog.cancel();
                             }

@@ -51,8 +51,6 @@ public class DetailActivity extends AppCompatActivity {
     private RadioGroup mRadioGroup;
     private EditText mCostMTV;
     private EditText mExMTV;
-    private Button mFinishButton;
-    private Button mCancelButton;
 
     private String timeMessage;
     private String expenseOrIncome;
@@ -87,16 +85,20 @@ public class DetailActivity extends AppCompatActivity {
         mRadioGroup = findViewById(R.id.detail_radioGroup);
         mCostMTV = findViewById(R.id.detail_costMTV);
         mExMTV = findViewById(R.id.detail_exMTV);
-        mFinishButton = findViewById(R.id.detail_finish_button);
-        mCancelButton = findViewById(R.id.detail_cancel_button);
         flag = true;
         Intent intent = getIntent();
         data = intent.getStringExtra(DATA);
         String[] arr = data.split(SPLIT_CHAR2);
         mDate.setText(arr[0]);
         String type = getResources().getString(R.string.typeTV);
-        if(Objects.equals(arr[1], "expense")) type += getResources().getString(R.string.expense);
-        else if(Objects.equals(arr[1], "income")) type += getResources().getString(R.string.income);
+        if(Objects.equals(arr[1], "expense")){
+            mRadioGroup.check(R.id.detail_expenseRB);
+            type += getResources().getString(R.string.expense);
+        }
+        else if(Objects.equals(arr[1], "income")){
+            mRadioGroup.check(R.id.detail_incomeRB);
+            type += getResources().getString(R.string.income);
+        }
         mType.setText(type);
         mBalance.setText(getResources().getString(R.string.costTV) + arr[2]);
         mEx.setText(getResources().getString(R.string.ex) + arr[3]);
@@ -139,8 +141,6 @@ public class DetailActivity extends AppCompatActivity {
                 mCostMTV.setText(arr[2]);
                 mExMTV.setVisibility(View.VISIBLE);
                 mExMTV.setText(arr[3]);
-                mFinishButton.setVisibility(View.VISIBLE);
-                mCancelButton.setVisibility(View.VISIBLE);
                 return true;
             case R.id.check:
                 flag = true;
@@ -183,8 +183,6 @@ public class DetailActivity extends AppCompatActivity {
                 mRadioGroup.setVisibility(View.INVISIBLE);
                 mCostMTV.setVisibility(View.INVISIBLE);
                 mExMTV.setVisibility(View.INVISIBLE);
-                mFinishButton.setVisibility(View.INVISIBLE);
-                mCancelButton.setVisibility(View.INVISIBLE);
                 return true;
             default:
                 // Do nothing

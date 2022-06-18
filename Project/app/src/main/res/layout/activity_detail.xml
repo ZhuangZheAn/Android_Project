@@ -121,34 +121,6 @@
         app:layout_constraintStart_toEndOf="@+id/textViewEx"
         app:layout_constraintTop_toTopOf="@+id/textViewEx" />
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="right"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <Button
-            android:id="@+id/detail_finish_button"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="16dp"
-            android:onClick="ClickApply"
-            android:text="@string/Apply"
-            android:visibility="invisible" />
-
-        <Button
-            android:id="@+id/detail_cancel_button"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="16dp"
-            android:onClick="ClickCancel"
-            android:text="@string/Cancel"
-            android:visibility="invisible" />
-    </LinearLayout>
-
     <android.support.v7.widget.Toolbar
         android:id="@+id/Detail_toolbar"
         android:layout_width="match_parent"
