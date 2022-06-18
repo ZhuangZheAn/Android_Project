@@ -14,7 +14,7 @@
         android:text="TextView"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/Detail_toolbar" />
 
     <TextView
         android:id="@+id/typeTV"
@@ -44,19 +44,6 @@
         app:layout_constraintTop_toBottomOf="@+id/balanceTV" />
 
     <Button
-        android:id="@+id/revise_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="ClickRevise"
-        android:text="@string/revise_btn"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/exTV"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <Button
         android:id="@+id/detail_Date_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -65,29 +52,27 @@
         android:textSize="20sp"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/revise_btn" />
+        app:layout_constraintTop_toBottomOf="@+id/detail_tvTime" />
 
     <TextView
         android:id="@+id/detail_tvTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
         android:text="@string/time"
         android:textSize="20sp"
         android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="@+id/detail_Date_button"
-        app:layout_constraintTop_toBottomOf="@+id/detail_Date_button" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Detail_toolbar" />
 
     <RadioGroup
         android:id="@+id/detail_radioGroup"
-        android:layout_width="0dp"
+        android:layout_width="411dp"
         android:layout_height="50dp"
-        android:layout_marginTop="24dp"
         android:orientation="horizontal"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/detail_tvTime"
-        app:layout_constraintTop_toBottomOf="@+id/detail_tvTime">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detail_Date_button">
 
         <RadioButton
             android:id="@+id/detail_expenseRB"
@@ -163,5 +148,18 @@
             android:text="@string/Cancel"
             android:visibility="invisible" />
     </LinearLayout>
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/Detail_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
 
 </android.support.constraint.ConstraintLayout>

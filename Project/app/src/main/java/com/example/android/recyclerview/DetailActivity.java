@@ -5,9 +5,13 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.speech.RecognizerIntent;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -66,7 +70,10 @@ public class DetailActivity extends AppCompatActivity {
         mBalance = findViewById(R.id.balanceTV);
         mType = findViewById(R.id.typeTV);
         mEx = findViewById(R.id.exTV);
-
+        Toolbar toolbar = findViewById(R.id.Detail_toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar=getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
         mDateButton = findViewById(R.id.detail_Date_button);
         mTextviewTime = findViewById(R.id.detail_tvTime);
         mRadioGroup = findViewById(R.id.detail_radioGroup);
@@ -84,21 +91,49 @@ public class DetailActivity extends AppCompatActivity {
         mEx.setText(arr[3]);
     }
 
-    public void ClickRevise(View view) {
-        String[] arr = data.split(SPLIT_CHAR2);
-        mDateButton.setVisibility(View.VISIBLE);
-        mTextviewTime.setVisibility(View.VISIBLE);
-        mTextviewTime.setText(arr[0]);
-        timeMessage = arr[0];
-        mRadioGroup.setVisibility(View.VISIBLE);
-        mCostMTV.setVisibility(View.VISIBLE);
-        mCostMTV.setText(arr[2]);
-        mExMTV.setVisibility(View.VISIBLE);
-        mExMTV.setText(arr[3]);
-        mFinishButton.setVisibility(View.VISIBLE);
-        mCancelButton.setVisibility(View.VISIBLE);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        /**itemId為稍後判斷點擊事件要用的*/
+        menu.add(0,0,1,"").setIcon(R.drawable.ic_revise).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        menu.add(0,1,0,"").setIcon(R.drawable.ic_back).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        return super.onCreateOptionsMenu(menu);
     }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case 0:
+                String[] arr = data.split(SPLIT_CHAR2);
+                mDate.setVisibility(View.INVISIBLE);
+                mType.setVisibility(View.INVISIBLE);
+                mBalance.setVisibility(View.INVISIBLE);
+                mEx.setVisibility(View.INVISIBLE);
+                mDateButton.setVisibility(View.VISIBLE);
+                mTextviewTime.setVisibility(View.VISIBLE);
+                mTextviewTime.setText(arr[0]);
+                timeMessage = arr[0];
+                mRadioGroup.setVisibility(View.VISIBLE);
+                mCostMTV.setVisibility(View.VISIBLE);
+                mCostMTV.setText(arr[2]);
+                mExMTV.setVisibility(View.VISIBLE);
+                mExMTV.setText(arr[3]);
+                mFinishButton.setVisibility(View.VISIBLE);
+                mCancelButton.setVisibility(View.VISIBLE);
+                return true;
+            case 1:
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                // Do nothing
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
     public void ClickCancel(View view) {
+        mDate.setVisibility(View.VISIBLE);
+        mType.setVisibility(View.VISIBLE);
+        mBalance.setVisibility(View.VISIBLE);
+        mEx.setVisibility(View.VISIBLE);
         mDateButton.setVisibility(View.INVISIBLE);
         mTextviewTime.setVisibility(View.INVISIBLE);
         mRadioGroup.setVisibility(View.INVISIBLE);
@@ -186,13 +221,13 @@ public class DetailActivity extends AppCompatActivity {
     public void onRadioButtonClicked(View view) {
         boolean checked = ((RadioButton) view).isChecked();
         switch (view.getId()) {
-            case R.id.expenseRB:
+            case R.id.detail_expenseRB:
                 if (checked){
                     expenseOrIncome = EXPENSE;
                     makeToast(getString(R.string.expenseRB_toast));
                 }
                 break;
-            case R.id.incomeRB:
+            case R.id.detail_incomeRB:
                 if (checked){
                     expenseOrIncome = INCOME;
                     makeToast(getString(R.string.incomeRB_toast));
