@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
-        android:textSize="22sp"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
-        android:textSize="22sp"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="@+id/dateTV"
         app:layout_constraintTop_toBottomOf="@+id/dateTV" />
 
@@ -30,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
-        android:textSize="22sp"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="@+id/typeTV"
         app:layout_constraintTop_toBottomOf="@+id/typeTV" />
 
@@ -39,7 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
-        android:textSize="22sp"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="@+id/balanceTV"
         app:layout_constraintTop_toBottomOf="@+id/balanceTV" />
 
@@ -64,6 +64,7 @@
         android:text="@string/date"
         android:textSize="20sp"
         android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/revise_btn" />
 
     <TextView
@@ -72,7 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="@string/time"
-        android:textSize="24sp"
+        android:textSize="20sp"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="@+id/detail_Date_button"
         app:layout_constraintTop_toBottomOf="@+id/detail_Date_button" />
@@ -135,32 +136,32 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/detail_costMTV" />
 
-    <Button
-        android:id="@+id/detail_cancel_button"
-        android:layout_width="fill_parent"
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:onClick="ClickCancel"
-        android:text="@string/Cancel"
-        android:visibility="invisible"
+        android:gravity="right"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detail_finish_button"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintStart_toStartOf="parent">
 
-    <Button
-        android:id="@+id/detail_finish_button"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:onClick="ClickApply"
-        android:text="@string/Apply"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.92" />
+        <Button
+            android:id="@+id/detail_finish_button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="16dp"
+            android:onClick="ClickApply"
+            android:text="@string/Apply"
+            android:visibility="invisible" />
+
+        <Button
+            android:id="@+id/detail_cancel_button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="16dp"
+            android:onClick="ClickCancel"
+            android:text="@string/Cancel"
+            android:visibility="invisible" />
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

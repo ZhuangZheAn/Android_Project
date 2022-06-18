@@ -15,7 +15,7 @@
   -->
 
 <resources>
-    <string name="app_name">Accounting-Assistant</string>
+    <string name="app_name">記帳APP</string>
     <string name="Second_name">NEW</string>
     <string name="Detail_name">DETAIL</string>
     <string name="action_settings">Settings</string>
@@ -24,8 +24,8 @@
     <string name="time">Time</string>
     <string name="timeTV">時間：</string>
     <string name="finish">finish</string>
-    <string name="Apply">Apply</string>
-    <string name="Cancel">Cancel</string>
+    <string name="Apply">確定</string>
+    <string name="Cancel">取消</string>
     <string name="ex">備註：</string>
     <string name="date">選擇時間</string>
     <string name="purpose">目的：</string>
