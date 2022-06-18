@@ -4,18 +4,22 @@ import static android.content.Context.MODE_PRIVATE;
 
 import static java.util.Arrays.sort;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,6 +45,7 @@ public class ListAllFragment extends Fragment{
     /*Input Keys*/
     private static final String ACT_KEY = "Activity";
     private static final String NEW_KEY = "New";
+    private static final String POS_KEY = "Pos";
 
     private static final String SPLIT_CHAR = "!@";
     private static final String SPLIT_CHAR2 = "#%";
@@ -88,8 +93,6 @@ public class ListAllFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-
         return inflater.inflate(R.layout.tab_list_all, container, false);
     }
 
@@ -99,46 +102,72 @@ public class ListAllFragment extends Fragment{
         mAdapter = new WordListAdapter(view.getContext(), mWordList);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        mPreferences =  this.getActivity().getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+        mPreferences = this.getActivity().getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+        SharedPreferences.Editor preferencesEditor = mPreferences.edit();
 
         Intent intent = this.getActivity().getIntent();
         String req = intent.getStringExtra(NEW_KEY);
+        String cb_activity = intent.getStringExtra(ACT_KEY);
+        int position = intent.getIntExtra(POS_KEY,0);
 
         data_size = mPreferences.getInt(DATASIZE_KEY,0);
         datas = mPreferences.getString(DATAS_KEY,"");
-        if(req != null){
-            data_size = mPreferences.getInt(DATASIZE_KEY,0);
-            data_size += 1;
 
-            String[] arr = new String[data_size];
-            if(datas == ""){
-                datas = req;
-                arr[0] = req;
-            }
-            else{
-                datas += SPLIT_CHAR + req;
-                arr = datas.split(SPLIT_CHAR);
-
-                sort(arr, Collections.reverseOrder());
-            }
-            for(int i = 0; i < data_size; i++){
-                mWordList.addLast(arr[i]);
-            }
-            SharedPreferences.Editor preferencesEditor = mPreferences.edit();
-            preferencesEditor.putInt(DATASIZE_KEY, data_size);
-            preferencesEditor.putString(DATAS_KEY, datas);
-            preferencesEditor.apply();
-        }
-            else{
+        int firstTimeOnCreate = mPreferences.getInt(getResources().getString(R.string.firstTimeOnCreate),0);
+        String[] arr;
+        if(cb_activity == null || cb_activity == ""){
             if(data_size != 0){
-                String[] arr = datas.split(SPLIT_CHAR);
+                arr = datas.split(SPLIT_CHAR);
                 sort(arr, Collections.reverseOrder());
                 for(int i = 0; i < data_size; i++){
                     mWordList.addLast(arr[i]);
                 }
             }
+        } else{
+            data_size = mPreferences.getInt(DATASIZE_KEY,0);
+            switch (cb_activity){
+                case "SecondActivity":
+                    data_size += 1;
+                    arr = new String[data_size];
+                    if(datas == ""){
+                        datas = req;
+                        arr[0] = req;
+                    }
+                    else{
+                        datas += SPLIT_CHAR + req;
+                        arr = datas.split(SPLIT_CHAR);
+
+                        sort(arr, Collections.reverseOrder());
+                    }
+                    for(int i = 0; i < data_size; i++){
+                        mWordList.addLast(arr[i]);
+                    }
+
+                    preferencesEditor.putInt(DATASIZE_KEY, data_size);
+                    preferencesEditor.putString(DATAS_KEY, datas);
+                    preferencesEditor.apply();
+                    break;
+                case "DetailActivity":
+                    arr = datas.split(SPLIT_CHAR);
+                    arr[position] = req;
+                    sort(arr, Collections.reverseOrder());
+                    for(int i = 0; i < data_size; i++){
+                        mWordList.addLast(arr[i]);
+                        if(i == 0) datas = arr[i];
+                        else datas += SPLIT_CHAR + arr[i];
+                    }
+
+
+                    preferencesEditor.putString(DATAS_KEY, datas);
+                    preferencesEditor.apply();
+                    break;
+                default:
+                    Toast.makeText(view.getContext(),"UNDEFINE ACTIVITY",Toast.LENGTH_SHORT);
+                    break;
+            }
+            intent.putExtra(ACT_KEY,"");
         }
+
     }
 }
 //    mRecyclerView = (RecyclerView) getView().findViewById(R.id.RV);

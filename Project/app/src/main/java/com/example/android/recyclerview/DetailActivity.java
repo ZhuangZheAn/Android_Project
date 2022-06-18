@@ -15,9 +15,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
@@ -113,8 +110,7 @@ public class DetailActivity extends AppCompatActivity {
 
     public void ClickApply(View view) {
         Intent req = getIntent();
-        String position = req.getStringExtra(POSITION);
-        String time = mTextviewTime.getText().toString();
+        int position = req.getIntExtra(POSITION,0);
         String cost = mCostMTV.getText().toString();
         String ex = mExMTV.getText().toString();
         if(Objects.equals(cost, "")){

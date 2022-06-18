@@ -1,6 +1,7 @@
 package com.example.android.recyclerview;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -14,6 +15,10 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
     public static final String EXTRA_MESSAGE = "com.example.android.droidcafeoptions.extra.MESSAGE";
+    private SharedPreferences mPreferences;
+    private String sharedPrefFile =
+            "com.example.android.recyclerview";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,25 +55,41 @@ public class MainActivity extends AppCompatActivity {
                }
            });
 
-
-
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         /**itemId為稍後判斷點擊事件要用的*/
         menu.add(0,0,0,"").setIcon(R.drawable.ic_new).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        menu.add(0,1,1,"").setIcon(R.drawable.ic_delete).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    protected void onDestroy() {
+        mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+        SharedPreferences.Editor preferencesEditor = mPreferences.edit();
+        preferencesEditor.putInt(getResources().getString(R.string.firstTimeOnCreate), 0);
+        preferencesEditor.apply();
+        super.onDestroy();
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case 0:
-                makeToast("導入8新增頁面");
+                makeToast("前往新增頁面");
                 Intent intent = new Intent(MainActivity.this, SecondActivity.class);
                 intent.putExtra(EXTRA_MESSAGE, "mOrderMessage");
                 startActivity(intent);
+                return true;
+            case 1:
+                makeToast("前往刪除頁面");
+//                intent = new Intent(MainActivity.this, SecondActivity.class);
+//                intent.putExtra(EXTRA_MESSAGE, "mOrderMessage");
+//                startActivity(intent);
                 return true;
             default:
                 // Do nothing

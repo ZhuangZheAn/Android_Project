@@ -40,4 +40,5 @@
     <string name="split_char2">#$</string>
     <string name="voice_cost">voice_cost</string>
     <string name="revise_btn">修改</string>
+    <string name="firstTimeOnCreate">firstTimeOnCreate</string>
 </resources>

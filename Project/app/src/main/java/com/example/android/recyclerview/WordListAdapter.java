@@ -99,7 +99,6 @@ public class WordListAdapter extends
         String[] arr = mCurrent.split(SPLIT_CHAR2);
         if(Objects.equals(arr[1], EXPENSE)){
             holder.mbalance.setText("- " + arr[2] + " $");
-
             if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
                 holder.mbalance.setBackgroundDrawable(ContextCompat.getDrawable(holder.mbalance.getContext(), R.drawable.expense_background) );
             } else {
