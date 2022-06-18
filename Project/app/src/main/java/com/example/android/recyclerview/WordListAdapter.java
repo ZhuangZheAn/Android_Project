@@ -27,9 +27,11 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import java.util.LinkedList;
@@ -52,7 +54,7 @@ public class WordListAdapter extends
     private static final String DATA = "data";
     private static final String POSITION = "position";
 
-    class WordViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class WordViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         public final TextView wordItemView;
         public final TextView mbalance;
         final WordListAdapter mAdapter;
@@ -63,6 +65,7 @@ public class WordListAdapter extends
             mbalance = itemView.findViewById(R.id.balance);
             this.mAdapter = adapter;
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
         }
 
         @Override
@@ -76,6 +79,64 @@ public class WordListAdapter extends
             intent.putExtra(POSITION,mPosition);
             view.getContext().startActivity(intent);
             mAdapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public boolean onLongClick(View view) {
+            int mPosition = getLayoutPosition();
+            // Use that to access the affected item in mWordList.
+            String element = mWordList.get(mPosition);
+            // Change the word in the mWordList.
+            PopupMenu popupMenu = new PopupMenu(view.getContext(), itemView);
+            popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
+            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem menuItem) {
+                    // Toast message on menu item clicked
+                    CharSequence title = menuItem.getTitle();
+                    if ("Edit".equals(title)) {
+                        Intent intent = new Intent(view.getContext(), DetailActivity.class);
+                        intent.putExtra(DATA, element);
+                        intent.putExtra(POSITION, mPosition);
+                        view.getContext().startActivity(intent);
+                        mAdapter.notifyDataSetChanged();
+                    }
+                    else if ("Delete".equals(title)) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                        builder.setTitle("警告!!");
+                        builder.setMessage("這個動作會刪除所有已儲存的資料");
+                        builder.setCancelable(true);
+
+                        builder.setPositiveButton(
+                                "取消",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+
+                        builder.setNegativeButton(
+                                "確定",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        //mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+                                        //SharedPreferences.Editor preferencesEditor = mPreferences.edit();
+                                        //preferencesEditor.clear();
+                                        //preferencesEditor.apply();
+                                        //mWordList.clear();
+                                        //mRecyclerView.setAdapter(mAdapter);
+                                        dialog.cancel();
+                                    }
+                                });
+                        AlertDialog alert = builder.create();
+                        alert.show();
+                    }
+                    return true;
+                }
+            });
+            // Showing the popup menu
+            popupMenu.show();
+            return false;
         }
     }
     public WordListAdapter(Context context, LinkedList<String> wordList) {
