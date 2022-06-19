@@ -15,17 +15,17 @@
   -->
 
 <resources>
-    <item type="id" name="ListAllFragment" />
+    <item name="ListAllFragment" type="id" />
     <string name="app_name">記帳APP</string>
     <string name="Second_name">NEW</string>
     <string name="Detail_name">DETAIL</string>
     <string name="action_settings">Settings</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="now">取得現在時間</string>
+    <string name="now">現在時間</string>
     <string name="time">Time</string>
     <string name="timeTV">時間：</string>
     <string name="costTV">金額：</string>
-    <string name="typeTV">金額類型：</string>
+    <string name="typeTV">類型：</string>
     <string name="finish">finish</string>
     <string name="Apply">確定</string>
     <string name="Cancel">取消</string>

@@ -10,21 +10,26 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".DeleteActivity"
+            android:exported="false" />
+        <activity
             android:name=".DetailActivity"
-            android:label="@string/Detail_name"
             android:exported="false"
+            android:label="@string/Detail_name"
             android:parentActivityName=".MainActivity">
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity"/>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
         <activity
             android:name=".NewActivity"
-            android:label="@string/Second_name"
             android:exported="false"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".MainActivity">
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity"/>
+            android:label="@string/Second_name"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
         <activity
             android:name=".MainActivity"
