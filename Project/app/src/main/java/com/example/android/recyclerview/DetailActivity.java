@@ -78,7 +78,7 @@ public class DetailActivity extends AppCompatActivity {
         mExTV = findViewById(R.id.textViewEx);
         Toolbar toolbar = findViewById(R.id.Detail_toolbar);
         setSupportActionBar(toolbar);
-        ActionBar actionBar=getSupportActionBar();
+        ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         mDateButton = findViewById(R.id.detail_Date_button);
         mTextviewTime = findViewById(R.id.detail_tvTime);
@@ -91,17 +91,19 @@ public class DetailActivity extends AppCompatActivity {
         String[] arr = data.split(SPLIT_CHAR2);
         mDate.setText(arr[0]);
         String type = getResources().getString(R.string.typeTV);
-        if(Objects.equals(arr[1], "expense")){
+        expenseOrIncome = arr[1];
+        if(Objects.equals(expenseOrIncome, EXPENSE)){
             mRadioGroup.check(R.id.detail_expenseRB);
             type += getResources().getString(R.string.expense);
         }
-        else if(Objects.equals(arr[1], "income")){
+        else if(Objects.equals(expenseOrIncome, INCOME)){
             mRadioGroup.check(R.id.detail_incomeRB);
             type += getResources().getString(R.string.income);
         }
         mType.setText(type);
         mBalance.setText(getResources().getString(R.string.costTV) + arr[2]);
         mEx.setText(getResources().getString(R.string.ex) + arr[3]);
+
 
     }
 
@@ -160,7 +162,6 @@ public class DetailActivity extends AppCompatActivity {
                     alert.show();
                 }
                 else{
-                    if(expenseOrIncome == null) expenseOrIncome = EXPENSE;
                     if(Objects.equals(ex, "")) ex = "no message";
                     String extra = timeMessage + SPLIT_CHAR2 + expenseOrIncome + SPLIT_CHAR2 + cost + SPLIT_CHAR2 + ex;
                     Intent intent = new Intent(this, MainActivity.class);
@@ -188,15 +189,6 @@ public class DetailActivity extends AppCompatActivity {
                 // Do nothing
         }
         return super.onOptionsItemSelected(item);
-    }
-
-
-    public void ClickCancel(View view) {
-
-    }
-
-    public void ClickApply(View view) {
-
     }
 
     @Override

@@ -36,17 +36,18 @@ public class ListAllFragment extends Fragment{
     private String mParam2;
 
     public final LinkedList<String> mWordList = new LinkedList<>();
-    public RecyclerView mRecyclerView;
-    public WordListAdapter mAdapter;
+    public final LinkedList<Integer> mPositionList = new LinkedList<>();
+    private RecyclerView mRecyclerView;
+    private WordListAdapter mAdapter;
     private static final String DATASIZE_KEY = "DataSize";
     private static final String DATAS_KEY = "Datas";
     /*Input Keys*/
     private static final String ACT_KEY = "Activity";
     private static final String NEW_KEY = "New";
     private static final String POS_KEY = "Pos";
+    private static final String DEL_KEY = "delete_position";
 
     private static final String SPLIT_CHAR = "!@";
-    private static final String SPLIT_CHAR2 = "#%";
 
     private SharedPreferences mPreferences;
     private String sharedPrefFile =
@@ -97,7 +98,7 @@ public class ListAllFragment extends Fragment{
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         mRecyclerView = view.findViewById(R.id.RV);
-        mAdapter = new WordListAdapter(view.getContext(), mWordList);
+        mAdapter = new WordListAdapter(view.getContext(), mWordList, mPositionList);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mPreferences = this.getActivity().getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
@@ -106,12 +107,9 @@ public class ListAllFragment extends Fragment{
         Intent intent = this.getActivity().getIntent();
         String req = intent.getStringExtra(NEW_KEY);
         String cb_activity = intent.getStringExtra(ACT_KEY);
-        int position = intent.getIntExtra(POS_KEY,0);
 
         data_size = mPreferences.getInt(DATASIZE_KEY,0);
         datas = mPreferences.getString(DATAS_KEY,"");
-
-        int firstTimeOnCreate = mPreferences.getInt(getResources().getString(R.string.firstTimeOnCreate),0);
         String[] arr;
         if(cb_activity == null || cb_activity == ""){
             if(data_size != 0){
@@ -119,13 +117,13 @@ public class ListAllFragment extends Fragment{
                 sort(arr, Collections.reverseOrder());
                 for(int i = 0; i < data_size; i++){
                     mWordList.addLast(arr[i]);
+                    mPositionList.addLast(i);
                 }
             }
         } else{
-            Toast.makeText(view.getContext(),"ACT:" + cb_activity,Toast.LENGTH_LONG).show();
             data_size = mPreferences.getInt(DATASIZE_KEY,0);
             switch (cb_activity){
-                case "SecondActivity":
+                case "NewActivity":
                     data_size += 1;
                     arr = new String[data_size];
                     if(datas == ""){
@@ -135,19 +133,20 @@ public class ListAllFragment extends Fragment{
                     else{
                         datas += SPLIT_CHAR + req;
                         arr = datas.split(SPLIT_CHAR);
-
                         sort(arr);
                         Collections.reverse(Arrays.asList(arr));
                     }
-                    for(int i = 0; i < data_size; i++){
-                        mWordList.addLast(arr[i]);
-                    }
-
                     preferencesEditor.putInt(DATASIZE_KEY, data_size);
                     preferencesEditor.putString(DATAS_KEY, datas);
                     preferencesEditor.apply();
+
+                    for(int i = 0; i < data_size; i++){
+                        mWordList.addLast(arr[i]);
+                        mPositionList.addLast(i);
+                    }
                     break;
                 case "DetailActivity":
+                    int position = intent.getIntExtra(POS_KEY,0);
                     arr = datas.split(SPLIT_CHAR);
                     arr[data_size - position - 1] = req;
                     sort(arr);
@@ -160,8 +159,26 @@ public class ListAllFragment extends Fragment{
                     Collections.reverse(Arrays.asList(arr));
                     for(int i = 0; i < data_size; i++){
                         mWordList.addLast(arr[i]);
-                        if(i == 0) datas = arr[i];
-                        else datas += SPLIT_CHAR + arr[i];
+                        mPositionList.addLast(i);
+                    }
+                    break;
+                case "WordListAdapter":
+                    Integer del_pos = Integer.parseInt(intent.getStringExtra(DEL_KEY));
+                    arr = datas.split(SPLIT_CHAR);
+                    arr = removeElement(arr,data_size - del_pos - 1);
+                    sort(arr);
+                    data_size -= 1;
+                    datas = arr[0];
+                    for(int i = 1; i < data_size; i++){
+                        datas += SPLIT_CHAR + arr[i];
+                    }
+                    preferencesEditor.putInt(DATASIZE_KEY, data_size);
+                    preferencesEditor.putString(DATAS_KEY, datas);
+                    preferencesEditor.apply();
+                    Collections.reverse(Arrays.asList(arr));
+                    for(int i = 0; i < data_size; i++){
+                        mWordList.addLast(arr[i]);
+                        mPositionList.addLast(i);
                     }
                     break;
                 default:
@@ -171,8 +188,11 @@ public class ListAllFragment extends Fragment{
             intent.putExtra(ACT_KEY,"");
         }
     }
-    public void clear(){
-        mWordList.clear();
-        mRecyclerView.setAdapter(mAdapter);
+    public static String[] removeElement(String[] arr, int index ){
+        String[] arrDestination = new String[arr.length - 1];
+        int remainingElements = arr.length - ( index + 1 );
+        System.arraycopy(arr, 0, arrDestination, 0, index);
+        System.arraycopy(arr, index + 1, arrDestination, index, remainingElements);
+        return arrDestination;
     }
 }

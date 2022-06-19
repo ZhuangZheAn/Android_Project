@@ -6,22 +6,38 @@ import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.widget.DatePicker;
+import android.widget.Toast;
 
 
 public class DatePickerFragment extends DialogFragment
         implements DatePickerDialog.OnDateSetListener {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        final Calendar c = Calendar.getInstance();
-        int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH);
-        int day = c.get(Calendar.DAY_OF_MONTH);
+        final Calendar c;
+        int year = 0;
+        int month = 0;
+        int day = 0;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            c = Calendar.getInstance();
+            year = c.get(Calendar.YEAR);
+            month = c.get(Calendar.MONTH);
+            day = c.get(Calendar.DAY_OF_MONTH);
+        }
+        else{
+            Toast.makeText(getContext(),"can't open calander",Toast.LENGTH_LONG).show();
+        }
         return new DatePickerDialog(getActivity(),this, year, month, day);
     }
 
     @Override
     public void onDateSet(DatePicker datePicker,int year , int month, int day){
-        SecondActivity secondactivity = (SecondActivity) getActivity();
-        secondactivity.processDatePickerResult(year, month, day);
+        try{
+            DetailActivity activity = (DetailActivity) getActivity();
+            activity.processDatePickerResult(year, month, day);
+        }catch(Exception e){
+            NewActivity activity = (NewActivity) getActivity();
+            activity.processDatePickerResult(year, month, day);
+        }
+
     }
 }

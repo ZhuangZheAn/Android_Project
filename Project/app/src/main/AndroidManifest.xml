@@ -18,7 +18,7 @@
                 android:value=".MainActivity"/>
         </activity>
         <activity
-            android:name=".SecondActivity"
+            android:name=".NewActivity"
             android:label="@string/Second_name"
             android:exported="false"
             android:screenOrientation="portrait"

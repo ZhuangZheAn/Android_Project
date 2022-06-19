@@ -1,6 +1,5 @@
 package com.example.android.recyclerview;
 
-import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,8 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
-
-import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -78,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case 0:
                 makeToast("前往新增頁面");
-                Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+                Intent intent = new Intent(MainActivity.this, NewActivity.class);
                 intent.putExtra(EXTRA_MESSAGE, "mOrderMessage");
                 startActivity(intent);
                 return true;
@@ -106,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                                 SharedPreferences.Editor preferencesEditor = mPreferences.edit();
                                 preferencesEditor.clear();
                                 preferencesEditor.apply();
-                                Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+                                Intent intent = new Intent(MainActivity.this, NewActivity.class);
                                 intent.putExtra("tmp","back");
                                 startActivity(intent);
                                 makeToast("已刪除所有資料");

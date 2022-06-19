@@ -34,6 +34,8 @@ import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.LinkedList;
 import java.util.Objects;
 
@@ -43,6 +45,7 @@ public class WordListAdapter extends
 
 
     private final LinkedList<String> mWordList;
+    private final LinkedList<Integer> mRealPositionList;
     private final LayoutInflater mInflater;
     private static final String SPLIT_CHAR2 = "#%";
 
@@ -57,12 +60,14 @@ public class WordListAdapter extends
     class WordViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         public final TextView wordItemView;
         public final TextView mbalance;
+        public final TextView mtime;
         final WordListAdapter mAdapter;
 
         public WordViewHolder(View itemView, WordListAdapter adapter) {
             super(itemView);
             wordItemView = itemView.findViewById(R.id.word);
             mbalance = itemView.findViewById(R.id.balance);
+            mtime = itemView.findViewById(R.id.wordlistTime);
             this.mAdapter = adapter;
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
@@ -73,10 +78,11 @@ public class WordListAdapter extends
             int mPosition = getLayoutPosition();
             // Use that to access the affected item in mWordList.
             String element = mWordList.get(mPosition);
+            Integer realPosition = mRealPositionList.get(mPosition);
             // Change the word in the mWordList.
             Intent intent = new Intent(view.getContext(), DetailActivity.class);
             intent.putExtra(DATA,element);
-            intent.putExtra(POSITION,mPosition);
+            intent.putExtra(POSITION,realPosition);
             view.getContext().startActivity(intent);
             mAdapter.notifyDataSetChanged();
         }
@@ -86,6 +92,7 @@ public class WordListAdapter extends
             int mPosition = getLayoutPosition();
             // Use that to access the affected item in mWordList.
             String element = mWordList.get(mPosition);
+            Integer realPosition = mRealPositionList.get(mPosition);
             // Change the word in the mWordList.
             PopupMenu popupMenu = new PopupMenu(view.getContext(), itemView);
             popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
@@ -94,19 +101,18 @@ public class WordListAdapter extends
                 public boolean onMenuItemClick(MenuItem menuItem) {
                     // Toast message on menu item clicked
                     CharSequence title = menuItem.getTitle();
-                    if ("Edit".equals(title)) {
+                    if (title.equals("編輯")) {
                         Intent intent = new Intent(view.getContext(), DetailActivity.class);
                         intent.putExtra(DATA, element);
                         intent.putExtra(POSITION, mPosition);
                         view.getContext().startActivity(intent);
                         mAdapter.notifyDataSetChanged();
                     }
-                    else if ("Delete".equals(title)) {
+                    else if (title.equals("刪除")) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
                         builder.setTitle("警告!!");
-                        builder.setMessage("這個動作會刪除所有已儲存的資料");
+                        builder.setMessage("這個動作會刪除目前選擇的資料");
                         builder.setCancelable(true);
-
                         builder.setPositiveButton(
                                 "取消",
                                 new DialogInterface.OnClickListener() {
@@ -119,12 +125,9 @@ public class WordListAdapter extends
                                 "確定",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
-                                        //mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
-                                        //SharedPreferences.Editor preferencesEditor = mPreferences.edit();
-                                        //preferencesEditor.clear();
-                                        //preferencesEditor.apply();
-                                        //mWordList.clear();
-                                        //mRecyclerView.setAdapter(mAdapter);
+                                        Intent intent = new Intent(view.getContext(),NewActivity.class);
+                                        intent.putExtra("tmp","delete" + realPosition);
+                                        view.getContext().startActivity(intent);
                                         dialog.cancel();
                                     }
                                 });
@@ -139,9 +142,10 @@ public class WordListAdapter extends
             return false;
         }
     }
-    public WordListAdapter(Context context, LinkedList<String> wordList) {
+    public WordListAdapter(Context context, LinkedList<String> wordList, LinkedList<Integer> realPosition) {
         mInflater = LayoutInflater.from(context);
         this.mWordList = wordList;
+        this.mRealPositionList = realPosition;
     }
 
     @Override
@@ -159,8 +163,19 @@ public class WordListAdapter extends
         holder.mbalance.bringToFront();
         String mCurrent = mWordList.get(position);
         String[] arr = mCurrent.split(SPLIT_CHAR2);
+        String[] unit = {"","K","M","B","T"};
+        long balance = Long.parseLong(arr[2]);
+        String balance_with_unit = "";
+        for(int i = 4; i >= 0; i--){
+            if(balance >= Math.pow(10,i*3)){
+                BigDecimal bd = new BigDecimal(balance / Math.pow(10,i*3)).setScale(1, RoundingMode.DOWN);
+                balance_with_unit = bd.doubleValue() + unit[i] + " $";
+                if(i == 0) balance_with_unit = balance + " $";
+                break;
+            }
+        }
         if(Objects.equals(arr[1], EXPENSE)){
-            holder.mbalance.setText("- " + arr[2] + " $");
+            holder.mbalance.setText("- " + balance_with_unit);
             holder.mbalance.setTextColor(Color.BLACK);
             if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
                 holder.mbalance.setBackgroundDrawable(ContextCompat.getDrawable(holder.mbalance.getContext(), R.drawable.expense_background) );
@@ -169,7 +184,7 @@ public class WordListAdapter extends
             }
         }
         else{
-            holder.mbalance.setText("+ " + arr[2] + " $");
+            holder.mbalance.setText("+ " + balance_with_unit);
             holder.mbalance.setTextColor(Color.WHITE);
             if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
                 holder.mbalance.setBackgroundDrawable(ContextCompat.getDrawable(holder.mbalance.getContext(), R.drawable.income_background) );
@@ -177,6 +192,7 @@ public class WordListAdapter extends
                 holder.mbalance.setBackground(ContextCompat.getDrawable(holder.mbalance.getContext(), R.drawable.income_background));
             }
         }
+        holder.mtime.setText(arr[0]);
         holder.wordItemView.setText(" " + arr[3]);
     }
 
