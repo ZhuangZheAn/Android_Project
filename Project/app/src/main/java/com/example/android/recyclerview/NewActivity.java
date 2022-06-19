@@ -61,15 +61,17 @@ public class NewActivity extends AppCompatActivity{
         GetNowTime();
         Intent intent = getIntent();
         String tmp = intent.getStringExtra("tmp");
-        if(Objects.equals(tmp, "back")){
-            Intent intent1 = new Intent(NewActivity.this,MainActivity.class);
-            startActivity(intent1);
-        }
-        else if(tmp.startsWith("delete")){
-            Intent intent1 = new Intent(NewActivity.this,MainActivity.class);
-            intent.putExtra(DEL_KEY, tmp.substring(6));
-            intent.putExtra(ACT_KEY,"WordListAdapter");
-            startActivity(intent1);
+        if(tmp != null){
+            if(Objects.equals(tmp, "back")){
+                Intent intent1 = new Intent(NewActivity.this,MainActivity.class);
+                startActivity(intent1);
+            }
+            else if(tmp.substring(0,6).equals("delete")){
+                Intent intent1 = new Intent(NewActivity.this,MainActivity.class);
+                intent1.putExtra(DEL_KEY, tmp.substring(6));
+                intent1.putExtra(ACT_KEY,"WordListAdapter");
+                startActivity(intent1);
+            }
         }
     }
 

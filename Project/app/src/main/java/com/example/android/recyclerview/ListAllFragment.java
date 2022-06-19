@@ -168,17 +168,24 @@ public class ListAllFragment extends Fragment{
                     arr = removeElement(arr,data_size - del_pos - 1);
                     sort(arr);
                     data_size -= 1;
-                    datas = arr[0];
-                    for(int i = 1; i < data_size; i++){
-                        datas += SPLIT_CHAR + arr[i];
+                    if(data_size == 0){
+                        preferencesEditor.putInt(DATASIZE_KEY, data_size);
+                        preferencesEditor.putString(DATAS_KEY, "");
+                        preferencesEditor.apply();
                     }
-                    preferencesEditor.putInt(DATASIZE_KEY, data_size);
-                    preferencesEditor.putString(DATAS_KEY, datas);
-                    preferencesEditor.apply();
-                    Collections.reverse(Arrays.asList(arr));
-                    for(int i = 0; i < data_size; i++){
-                        mWordList.addLast(arr[i]);
-                        mPositionList.addLast(i);
+                    else{
+                        datas = arr[0];
+                        for(int i = 1; i < data_size; i++){
+                            datas += SPLIT_CHAR + arr[i];
+                        }
+                        preferencesEditor.putInt(DATASIZE_KEY, data_size);
+                        preferencesEditor.putString(DATAS_KEY, datas);
+                        preferencesEditor.apply();
+                        Collections.reverse(Arrays.asList(arr));
+                        for(int i = 0; i < data_size; i++){
+                            mWordList.addLast(arr[i]);
+                            mPositionList.addLast(i);
+                        }
                     }
                     break;
                 default:
@@ -186,6 +193,12 @@ public class ListAllFragment extends Fragment{
                     break;
             }
             intent.putExtra(ACT_KEY,"");
+        }
+        if(data_size == 0){
+            view.findViewById(R.id.hintTextView).setVisibility(View.VISIBLE);
+        }
+        else{
+            view.findViewById(R.id.hintTextView).setVisibility(View.INVISIBLE);
         }
     }
     public static String[] removeElement(String[] arr, int index ){
