@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Arrays;
@@ -35,6 +36,9 @@ public class ListExpenseFragment extends Fragment {
     public final LinkedList<Integer> mPositionList = new LinkedList<>();
     private RecyclerView mRecyclerView;
     private WordListAdapter mAdapter;
+
+    private TextView money;
+
     private static final String DATASIZE_KEY = "DataSize";
     private static final String DATAS_KEY = "Datas";
     /*Input Keys*/
@@ -117,6 +121,22 @@ public class ListExpenseFragment extends Fragment {
             mRecyclerView.setAdapter(mAdapter);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         }
-
+        if(data_size == 0){
+            view.findViewById(R.id.hintExpense).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.expense_money).setVisibility(View.INVISIBLE);
+        }
+        else{
+            view.findViewById(R.id.hintExpense).setVisibility(View.INVISIBLE);
+            view.findViewById(R.id.expense_money).setVisibility(View.VISIBLE);
+        }
+        long money_arr = 0;
+        arr = datas.split(SPLIT_CHAR);
+        for(int i = 0; i < data_size; i++){
+            if (Objects.equals(arr[i].split(SPLIT_CHAR2)[1], "expense")){
+                money_arr -= Long.parseLong(arr[i].split(SPLIT_CHAR2)[2]);
+            }
+        }
+        money = view.findViewById(R.id.expense_money);
+        money.setText("總支出：" + Long.toString(money_arr) + "$");
     }
 }

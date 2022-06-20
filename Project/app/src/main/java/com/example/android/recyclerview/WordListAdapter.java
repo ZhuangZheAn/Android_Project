@@ -51,6 +51,7 @@ public class WordListAdapter extends
 
     private static final String EXPENSE = "expense";
     private static final String INCOME = "income";
+    long money;
     /*Input Keys*/
 
     /*Output Keys*/
@@ -182,6 +183,7 @@ public class WordListAdapter extends
             } else {
                 holder.mbalance.setBackground(ContextCompat.getDrawable(holder.mbalance.getContext(), R.drawable.expense_background));
             }
+            money -= balance;
         }
         else{
             holder.mbalance.setText("+ " + balance_with_unit);
