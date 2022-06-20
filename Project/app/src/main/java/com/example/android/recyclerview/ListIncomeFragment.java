@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Arrays;
@@ -35,6 +36,9 @@ public class ListIncomeFragment extends Fragment {
     public final LinkedList<Integer> mPositionList = new LinkedList<>();
     private RecyclerView mRecyclerView;
     private WordListAdapter mAdapter;
+
+    private TextView money;
+
     private static final String DATASIZE_KEY = "DataSize";
     private static final String DATAS_KEY = "Datas";
     /*Input Keys*/
@@ -112,10 +116,27 @@ public class ListIncomeFragment extends Fragment {
                     mPositionList.addLast(i);
                 }
             }
+            mRecyclerView = view.findViewById(R.id.RV);
+            mAdapter = new WordListAdapter(view.getContext(), mWordList, mPositionList);
+            mRecyclerView.setAdapter(mAdapter);
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         }
-        mRecyclerView = view.findViewById(R.id.RV);
-        mAdapter = new WordListAdapter(view.getContext(), mWordList, mPositionList);
-        mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        if(data_size == 0){
+            view.findViewById(R.id.hintIncome).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.income_money).setVisibility(View.INVISIBLE);
+        }
+        else{
+            view.findViewById(R.id.hintIncome).setVisibility(View.INVISIBLE);
+            view.findViewById(R.id.income_money).setVisibility(View.VISIBLE);
+        }
+        long money_arr = 0;
+        arr = datas.split(SPLIT_CHAR);
+        for(int i = 0; i < data_size; i++){
+            if (Objects.equals(arr[i].split(SPLIT_CHAR2)[1], "income")){
+                money_arr += Long.parseLong(arr[i].split(SPLIT_CHAR2)[2]);
+            }
+        }
+        money = view.findViewById(R.id.income_money);
+        money.setText("總收入：" + Long.toString(money_arr) + "$");
     }
 }

@@ -13,11 +13,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,6 +41,9 @@ public class ListAllFragment extends Fragment{
     public final LinkedList<Integer> mPositionList = new LinkedList<>();
     private RecyclerView mRecyclerView;
     private WordListAdapter mAdapter;
+
+    private TextView money;
+
     private static final String DATASIZE_KEY = "DataSize";
     private static final String DATAS_KEY = "Datas";
     /*Input Keys*/
@@ -48,7 +53,7 @@ public class ListAllFragment extends Fragment{
     private static final String DEL_KEY = "delete_position";
 
     private static final String SPLIT_CHAR = "!@";
-
+    private static final String SPLIT_CHAR2 = "#%";
     private SharedPreferences mPreferences;
     private String sharedPrefFile =
             "com.example.android.recyclerview";
@@ -196,10 +201,23 @@ public class ListAllFragment extends Fragment{
         }
         if(data_size == 0){
             view.findViewById(R.id.hintTextView).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.total_money).setVisibility(View.INVISIBLE);
         }
         else{
             view.findViewById(R.id.hintTextView).setVisibility(View.INVISIBLE);
+            view.findViewById(R.id.total_money).setVisibility(View.VISIBLE);
         }
+        long money_arr = 0;
+        arr = datas.split(SPLIT_CHAR);
+        for(int i = 0; i < data_size; i++){
+            if (Objects.equals(arr[i].split(SPLIT_CHAR2)[1], "expense")){
+                money_arr -= Long.parseLong(arr[i].split(SPLIT_CHAR2)[2]);
+            }else{
+                money_arr += Long.parseLong(arr[i].split(SPLIT_CHAR2)[2]);
+            }
+        }
+        money = view.findViewById(R.id.total_money);
+        money.setText("總金額：" + Long.toString(money_arr) + "$");
     }
     public static String[] removeElement(String[] arr, int index ){
         String[] arrDestination = new String[arr.length - 1];

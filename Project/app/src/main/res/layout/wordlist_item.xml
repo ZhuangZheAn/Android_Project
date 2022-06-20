@@ -24,6 +24,7 @@
     android:background="@drawable/wordlist_item_background"
     android:padding="6dp">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -68,7 +69,6 @@
                 android:fontFamily="sans-serif"
                 android:singleLine="true"
                 android:text="+888888$"
-
                 android:textAlignment="textEnd"
                 android:textSize="18sp" />
 
