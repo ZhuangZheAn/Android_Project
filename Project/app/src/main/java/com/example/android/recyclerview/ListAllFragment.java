@@ -207,17 +207,18 @@ public class ListAllFragment extends Fragment{
             view.findViewById(R.id.hintTextView).setVisibility(View.INVISIBLE);
             view.findViewById(R.id.total_money).setVisibility(View.VISIBLE);
         }
-        long money_arr = 0;
+        long money_long = 0;
         arr = datas.split(SPLIT_CHAR);
         for(int i = 0; i < data_size; i++){
             if (Objects.equals(arr[i].split(SPLIT_CHAR2)[1], "expense")){
-                money_arr -= Long.parseLong(arr[i].split(SPLIT_CHAR2)[2]);
+                money_long -= Long.parseLong(arr[i].split(SPLIT_CHAR2)[2]);
             }else{
-                money_arr += Long.parseLong(arr[i].split(SPLIT_CHAR2)[2]);
+                money_long += Long.parseLong(arr[i].split(SPLIT_CHAR2)[2]);
             }
         }
         money = view.findViewById(R.id.total_money);
-        money.setText("總金額：" + Long.toString(money_arr) + "$");
+        money.setText("總金額      " + Long.toString(money_long) + " $");
+
     }
     public static String[] removeElement(String[] arr, int index ){
         String[] arrDestination = new String[arr.length - 1];

@@ -15,10 +15,13 @@
 
         <TextView
             android:id="@+id/income_money"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="right|center_vertical"
+            android:layout_gravity="right"
+            android:background="#3F51B5"
             android:text="money will show here"
+            android:textAlignment="textEnd"
+            android:textColor="#FFFFFF"
             android:textSize="22sp"
             android:visibility="visible" />
 

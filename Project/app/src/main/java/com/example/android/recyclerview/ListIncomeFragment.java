@@ -129,14 +129,14 @@ public class ListIncomeFragment extends Fragment {
             view.findViewById(R.id.hintIncome).setVisibility(View.INVISIBLE);
             view.findViewById(R.id.income_money).setVisibility(View.VISIBLE);
         }
-        long money_arr = 0;
+        long money_long = 0;
         arr = datas.split(SPLIT_CHAR);
         for(int i = 0; i < data_size; i++){
             if (Objects.equals(arr[i].split(SPLIT_CHAR2)[1], "income")){
-                money_arr += Long.parseLong(arr[i].split(SPLIT_CHAR2)[2]);
+                money_long += Long.parseLong(arr[i].split(SPLIT_CHAR2)[2]);
             }
         }
         money = view.findViewById(R.id.income_money);
-        money.setText("總收入：" + Long.toString(money_arr) + "$");
+        money.setText("  總收入      " + Long.toString(money_long) + " $  ");
     }
 }
