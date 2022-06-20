@@ -11,12 +11,20 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".DeleteActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:label="@string/DELETE"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
         <activity
             android:name=".DetailActivity"
             android:exported="false"
             android:label="@string/Detail_name"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />

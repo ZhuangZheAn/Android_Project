@@ -170,7 +170,7 @@ public class WordListAdapter extends
             if(balance >= Math.pow(10,i*3)){
                 BigDecimal bd = new BigDecimal(balance / Math.pow(10,i*3)).setScale(1, RoundingMode.DOWN);
                 balance_with_unit = bd.doubleValue() + unit[i] + " $";
-                if(i == 0) balance_with_unit = balance + " $";
+                if(i <= 1) balance_with_unit = balance + " $";
                 break;
             }
         }

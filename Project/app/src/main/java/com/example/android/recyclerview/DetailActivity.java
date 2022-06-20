@@ -230,7 +230,6 @@ public class DetailActivity extends AppCompatActivity {
         Time.show(getSupportFragmentManager(),"timePicker");
         DatePickerFragment Date = new DatePickerFragment();
         Date.show(getSupportFragmentManager(),"datePicker");
-
     }
 
     @SuppressLint("DefaultLocale")

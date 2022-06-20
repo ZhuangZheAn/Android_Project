@@ -79,7 +79,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             case 1:
-                makeToast("前往刪除頁面");
+                //makeToast("前往刪除頁面");
+                //Intent intent1 = new Intent(this,DeleteActivity.class);
+                //startActivity(intent1);
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("警告!!");
                 builder.setMessage("這個動作會刪除所有已儲存的資料");
