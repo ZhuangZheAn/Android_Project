@@ -24,6 +24,7 @@
     android:background="@drawable/wordlist_item_background"
     android:padding="6dp">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -45,12 +46,10 @@
                 style="@style/word_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 android:layout_weight="2"
                 android:ellipsize="end"
                 android:fontFamily="sans-serif-thin"
-                android:gravity="center|left"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
                 android:singleLine="true"
@@ -61,14 +60,13 @@
 
             <TextView
                 android:id="@+id/balance"
-                android:layout_width="350px"
+                android:layout_width="400px"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:background="@drawable/income_background"
                 android:fontFamily="sans-serif"
                 android:singleLine="true"
                 android:text="+888888$"
-
                 android:textAlignment="textEnd"
                 android:textSize="18sp" />
 

@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Arrays;
@@ -19,29 +20,21 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Objects;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ListExpenseFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ListExpenseFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private String mParam1;
+    private String mParam2;
 
     public final LinkedList<String> mWordList = new LinkedList<>();
     public final LinkedList<Integer> mPositionList = new LinkedList<>();
     private RecyclerView mRecyclerView;
     private WordListAdapter mAdapter;
+    private TextView money;
+    /*Keys*/
     private static final String DATASIZE_KEY = "DataSize";
     private static final String DATAS_KEY = "Datas";
-    /*Input Keys*/
-    private static final String ACT_KEY = "Activity";
-    private static final String NEW_KEY = "New";
-    private static final String POS_KEY = "Pos";
-
     private static final String SPLIT_CHAR = "!@";
     private static final String SPLIT_CHAR2 = "#%";
 
@@ -51,23 +44,12 @@ public class ListExpenseFragment extends Fragment {
     private String datas;
     private Integer data_size;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+
 
     public ListExpenseFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ListExpenseFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static ListExpenseFragment newInstance(String param1, String param2) {
         ListExpenseFragment fragment = new ListExpenseFragment();
         Bundle args = new Bundle();
@@ -89,14 +71,11 @@ public class ListExpenseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.tab_list_expense, container, false);
     }
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         mPreferences = this.getActivity().getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
-        SharedPreferences.Editor preferencesEditor = mPreferences.edit();
 
         data_size = mPreferences.getInt(DATASIZE_KEY,0);
         datas = mPreferences.getString(DATAS_KEY,"");
@@ -117,6 +96,22 @@ public class ListExpenseFragment extends Fragment {
             mRecyclerView.setAdapter(mAdapter);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         }
-
+        if(data_size == 0){
+            view.findViewById(R.id.hintExpense).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.expense_money).setVisibility(View.INVISIBLE);
+        }
+        else{
+            view.findViewById(R.id.hintExpense).setVisibility(View.INVISIBLE);
+            view.findViewById(R.id.expense_money).setVisibility(View.VISIBLE);
+        }
+        long money_long = 0;
+        arr = datas.split(SPLIT_CHAR);
+        for(int i = 0; i < data_size; i++){
+            if (Objects.equals(arr[i].split(SPLIT_CHAR2)[1], "expense")){
+                money_long += Long.parseLong(arr[i].split(SPLIT_CHAR2)[2]);
+            }
+        }
+        money = view.findViewById(R.id.expense_money);
+        money.setText("  總支出      " + Long.toString(money_long) + " $  ");
     }
 }

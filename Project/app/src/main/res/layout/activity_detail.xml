@@ -7,10 +7,25 @@
     android:visibility="visible"
     tools:context=".DetailActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/Detail_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:theme="@style/Theme.AppCompat"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
     <TextView
         android:id="@+id/dateTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
         android:text="TextView"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,6 +35,7 @@
         android:id="@+id/typeTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:text="TextView"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="@+id/dateTV"
@@ -29,6 +45,7 @@
         android:id="@+id/balanceTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:text="TextView"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="@+id/typeTV"
@@ -38,6 +55,7 @@
         android:id="@+id/exTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:text="TextView"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="@+id/balanceTV"
@@ -47,12 +65,15 @@
         android:id="@+id/detail_Date_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:drawableLeft="@drawable/ic_date"
         android:onClick="ClickDate"
         android:text="@string/date"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detail_tvTime" />
+        app:layout_constraintTop_toBottomOf="@+id/Detail_toolbar" />
 
     <TextView
         android:id="@+id/detail_tvTime"
@@ -61,18 +82,19 @@
         android:text="@string/time"
         android:textSize="20sp"
         android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Detail_toolbar" />
+        app:layout_constraintBottom_toBottomOf="@+id/textViewTime"
+        app:layout_constraintStart_toEndOf="@+id/textViewTime"
+        app:layout_constraintTop_toTopOf="@+id/textViewTime" />
 
     <RadioGroup
         android:id="@+id/detail_radioGroup"
-        android:layout_width="0dp"
+        android:layout_width="403dp"
         android:layout_height="50dp"
         android:orientation="horizontal"
         android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detail_Date_button">
+        app:layout_constraintBottom_toBottomOf="@+id/textViewType"
+        app:layout_constraintStart_toEndOf="@+id/textViewType"
+        app:layout_constraintTop_toTopOf="@+id/textViewType">
 
         <RadioButton
             android:id="@+id/detail_expenseRB"
@@ -103,6 +125,8 @@
         android:inputType="number"
         android:textColorHint="#546E7A"
         android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewCost"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textViewCost"
         app:layout_constraintTop_toTopOf="@+id/textViewCost" />
 
@@ -118,40 +142,54 @@
         android:minHeight="48dp"
         android:textColorHint="#546E7A"
         android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewEx"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textViewEx"
         app:layout_constraintTop_toTopOf="@+id/textViewEx" />
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/Detail_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:theme="@style/Theme.AppCompat"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/textViewCost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         android:text="@string/costTV"
-        android:textSize="18sp"
+        android:textSize="20sp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="@+id/textViewType"
+        app:layout_constraintTop_toBottomOf="@+id/textViewType" />
+
+    <TextView
+        android:id="@+id/textViewType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/typeTV"
+        android:textSize="20sp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="@+id/textViewTime"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTime" />
+
+    <TextView
+        android:id="@+id/textViewTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/timeTV"
+        android:textSize="20sp"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detail_radioGroup" />
+        app:layout_constraintTop_toBottomOf="@+id/detail_Date_button" />
 
     <TextView
         android:id="@+id/textViewEx"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:text="@string/ex"
-        android:textSize="18sp"
+        android:textSize="20sp"
         android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textViewCost"
         app:layout_constraintTop_toBottomOf="@+id/detail_costMTV" />
 
 

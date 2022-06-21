@@ -46,6 +46,7 @@ public class NewActivity extends AppCompatActivity{
     private static final String INCOME = "income";
     private static final int REQUEST_COST_VOICE = 0;
     private static final int REQUEST_EX_VOICE = 1;
+
     @SuppressLint("SimpleDateFormat")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,21 +62,22 @@ public class NewActivity extends AppCompatActivity{
         GetNowTime();
         Intent intent = getIntent();
         String tmp = intent.getStringExtra("tmp");
-        if(Objects.equals(tmp, "back")){
-            Intent intent1 = new Intent(NewActivity.this,MainActivity.class);
-            startActivity(intent1);
-        }
-        else if(tmp.startsWith("delete")){
-            Intent intent1 = new Intent(NewActivity.this,MainActivity.class);
-            intent.putExtra(DEL_KEY, tmp.substring(6));
-            intent.putExtra(ACT_KEY,"WordListAdapter");
-            startActivity(intent1);
+        if(tmp != null){
+            if(Objects.equals(tmp, "back")){
+                Intent intent1 = new Intent(NewActivity.this,MainActivity.class);
+                startActivity(intent1);
+            }
+            else if(tmp.substring(0,6).equals("delete")){
+                Intent intent1 = new Intent(NewActivity.this,MainActivity.class);
+                intent1.putExtra(DEL_KEY, tmp.substring(6));
+                intent1.putExtra(ACT_KEY,"WordListAdapter");
+                startActivity(intent1);
+            }
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        /**itemId為稍後判斷點擊事件要用的*/
         menu.add(0,0,0,"").setIcon(R.drawable.ic_check).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         return super.onCreateOptionsMenu(menu);
     }

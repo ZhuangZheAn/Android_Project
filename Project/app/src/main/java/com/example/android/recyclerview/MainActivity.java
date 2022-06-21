@@ -21,20 +21,19 @@ public class MainActivity extends AppCompatActivity {
     private String sharedPrefFile =
             "com.example.android.recyclerview";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         TabLayout tabLayout = findViewById(R.id.tab_layout);
-// Set the text for each tab.
         tabLayout.addTab(tabLayout.newTab().setText("支出"));
         tabLayout.addTab(tabLayout.newTab().setText("All"));
         tabLayout.addTab(tabLayout.newTab().setText("收入"));
-// Set the tabs to fill the entire layout.
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
         final ViewPager viewPager = findViewById(R.id.pager);
         final PagerAdapter adapter = new PagerAdapter
                 (getSupportFragmentManager(), tabLayout.getTabCount());
@@ -57,14 +56,10 @@ public class MainActivity extends AppCompatActivity {
                }
            });
         viewPager.setCurrentItem(1);
-
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        /**itemId為稍後判斷點擊事件要用的*/
         menu.add(0,0,0,"").setIcon(R.drawable.ic_new).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         menu.add(0,1,1,"").setIcon(R.drawable.ic_delete).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         return super.onCreateOptionsMenu(menu);
@@ -80,12 +75,10 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             case 1:
-                makeToast("前往刪除頁面");
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("警告!!");
                 builder.setMessage("這個動作會刪除所有已儲存的資料");
                 builder.setCancelable(true);
-
                 builder.setPositiveButton(
                         "取消",
                         new DialogInterface.OnClickListener() {
@@ -94,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
                                 dialog.cancel();
                             }
                         });
-
                 builder.setNegativeButton(
                         "確定",
                         new DialogInterface.OnClickListener() {
@@ -110,7 +102,6 @@ public class MainActivity extends AppCompatActivity {
                                 dialog.cancel();
                             }
                         });
-
                 AlertDialog alert = builder.create();
                 alert.show();
                 return true;
@@ -120,9 +111,6 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void reset(View view) {
-
-    }
     public void makeToast(String message){
         Toast.makeText(this, message,Toast.LENGTH_SHORT).show();
     }

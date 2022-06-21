@@ -36,7 +36,5 @@ public class TimePickerFragment extends DialogFragment
             NewActivity detailActivity = (NewActivity) getActivity();
             detailActivity.processTimePickerResult(year, month);
         }
-
-
     }
 }

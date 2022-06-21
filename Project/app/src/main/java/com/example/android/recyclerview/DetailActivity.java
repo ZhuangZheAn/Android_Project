@@ -43,6 +43,8 @@ public class DetailActivity extends AppCompatActivity {
     private TextView mBalance;
     private TextView mType;
     private TextView mEx;
+    private TextView mTimeTV;
+    private TextView mTypeTV;
     private TextView mCostTV;
     private TextView mExTV;
 
@@ -70,26 +72,37 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+        // findViewById
         mDate = findViewById(R.id.dateTV);
         mBalance = findViewById(R.id.balanceTV);
         mType = findViewById(R.id.typeTV);
         mEx = findViewById(R.id.exTV);
+        mTimeTV = findViewById(R.id.textViewTime);
+        mTypeTV = findViewById(R.id.textViewType);
         mCostTV = findViewById(R.id.textViewCost);
         mExTV = findViewById(R.id.textViewEx);
-        Toolbar toolbar = findViewById(R.id.Detail_toolbar);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
         mDateButton = findViewById(R.id.detail_Date_button);
         mTextviewTime = findViewById(R.id.detail_tvTime);
         mRadioGroup = findViewById(R.id.detail_radioGroup);
         mCostMTV = findViewById(R.id.detail_costMTV);
         mExMTV = findViewById(R.id.detail_exMTV);
+        // Toolbar setting
+        Toolbar toolbar = findViewById(R.id.Detail_toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
         flag = true;
+        // get value by intent
         Intent intent = getIntent();
         data = intent.getStringExtra(DATA);
         String[] arr = data.split(SPLIT_CHAR2);
-        mDate.setText(arr[0]);
+        timeMessage = arr[0];
+        year_string = timeMessage.substring(0,4);
+        month_string = timeMessage.substring(5,7);
+        day_string = timeMessage.substring(8,10);
+        hour_string = timeMessage.substring(11,13);
+        minute_string = timeMessage.substring(14,16);
+        second_string = timeMessage.substring(17,19);
         String type = getResources().getString(R.string.typeTV);
         expenseOrIncome = arr[1];
         if(Objects.equals(expenseOrIncome, EXPENSE)){
@@ -100,11 +113,10 @@ public class DetailActivity extends AppCompatActivity {
             mRadioGroup.check(R.id.detail_incomeRB);
             type += getResources().getString(R.string.income);
         }
+        mDate.setText(getResources().getString(R.string.timeTV) + timeMessage);
         mType.setText(type);
         mBalance.setText(getResources().getString(R.string.costTV) + arr[2]);
         mEx.setText(getResources().getString(R.string.ex) + arr[3]);
-
-
     }
 
     @Override
@@ -132,6 +144,8 @@ public class DetailActivity extends AppCompatActivity {
                 mType.setVisibility(View.INVISIBLE);
                 mBalance.setVisibility(View.INVISIBLE);
                 mEx.setVisibility(View.INVISIBLE);
+                mTimeTV.setVisibility(View.VISIBLE);
+                mTypeTV.setVisibility(View.VISIBLE);
                 mCostTV.setVisibility(View.VISIBLE);
                 mExTV.setVisibility(View.VISIBLE);
                 mDateButton.setVisibility(View.VISIBLE);
@@ -143,6 +157,22 @@ public class DetailActivity extends AppCompatActivity {
                 mCostMTV.setText(arr[2]);
                 mExMTV.setVisibility(View.VISIBLE);
                 mExMTV.setText(arr[3]);
+                return true;
+            case R.id.cancel:
+                flag = true;
+                mDate.setVisibility(View.VISIBLE);
+                mType.setVisibility(View.VISIBLE);
+                mBalance.setVisibility(View.VISIBLE);
+                mEx.setVisibility(View.VISIBLE);
+                mTimeTV.setVisibility(View.INVISIBLE);
+                mTypeTV.setVisibility(View.INVISIBLE);
+                mCostTV.setVisibility(View.INVISIBLE);
+                mExTV.setVisibility(View.INVISIBLE);
+                mDateButton.setVisibility(View.INVISIBLE);
+                mTextviewTime.setVisibility(View.INVISIBLE);
+                mRadioGroup.setVisibility(View.INVISIBLE);
+                mCostMTV.setVisibility(View.INVISIBLE);
+                mExMTV.setVisibility(View.INVISIBLE);
                 return true;
             case R.id.check:
                 flag = true;
@@ -171,26 +201,14 @@ public class DetailActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
                 return true;
-            case R.id.cancel:
-                flag = true;
-                mDate.setVisibility(View.VISIBLE);
-                mType.setVisibility(View.VISIBLE);
-                mBalance.setVisibility(View.VISIBLE);
-                mEx.setVisibility(View.VISIBLE);
-                mCostTV.setVisibility(View.INVISIBLE);
-                mExTV.setVisibility(View.INVISIBLE);
-                mDateButton.setVisibility(View.INVISIBLE);
-                mTextviewTime.setVisibility(View.INVISIBLE);
-                mRadioGroup.setVisibility(View.INVISIBLE);
-                mCostMTV.setVisibility(View.INVISIBLE);
-                mExMTV.setVisibility(View.INVISIBLE);
-                return true;
+
             default:
                 // Do nothing
         }
         return super.onOptionsItemSelected(item);
     }
 
+    // 語音功能
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -209,15 +227,13 @@ public class DetailActivity extends AppCompatActivity {
             mExMTV.setText(spokenText);
         }
     }
-
+    // 時間功能
     public void ClickDate(View view) {
         TimePickerFragment Time = new TimePickerFragment();
         Time.show(getSupportFragmentManager(),"timePicker");
         DatePickerFragment Date = new DatePickerFragment();
         Date.show(getSupportFragmentManager(),"datePicker");
-
     }
-    public void makeToast(String msg){ Toast.makeText(this, msg, Toast.LENGTH_SHORT).show(); }
 
     @SuppressLint("DefaultLocale")
     public void processDatePickerResult(int year, int month, int day){
@@ -236,7 +252,7 @@ public class DetailActivity extends AppCompatActivity {
         mTextviewTime.setText(timeMessage);
         makeToast("已更新時間為\n" + timeMessage);
     }
-
+    // 金額類型選擇
     @SuppressLint("NonConstantResourceId")
     public void onRadioButtonClicked(View view) {
         boolean checked = ((RadioButton) view).isChecked();
@@ -257,4 +273,6 @@ public class DetailActivity extends AppCompatActivity {
                 break;
         }
     }
+
+    public void makeToast(String msg){ Toast.makeText(this, msg, Toast.LENGTH_SHORT).show(); }
 }

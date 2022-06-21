@@ -38,6 +38,5 @@ public class DatePickerFragment extends DialogFragment
             NewActivity activity = (NewActivity) getActivity();
             activity.processDatePickerResult(year, month, day);
         }
-
     }
 }
