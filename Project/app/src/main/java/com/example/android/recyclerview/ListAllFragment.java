@@ -21,19 +21,10 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Objects;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ListAllFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ListAllFragment extends Fragment{
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -41,17 +32,14 @@ public class ListAllFragment extends Fragment{
     public final LinkedList<Integer> mPositionList = new LinkedList<>();
     private RecyclerView mRecyclerView;
     private WordListAdapter mAdapter;
-
     private TextView money;
-
+    /*Keys*/
     private static final String DATASIZE_KEY = "DataSize";
     private static final String DATAS_KEY = "Datas";
-    /*Input Keys*/
     private static final String ACT_KEY = "Activity";
     private static final String NEW_KEY = "New";
     private static final String POS_KEY = "Pos";
     private static final String DEL_KEY = "delete_position";
-
     private static final String SPLIT_CHAR = "!@";
     private static final String SPLIT_CHAR2 = "#%";
     private SharedPreferences mPreferences;
@@ -60,21 +48,10 @@ public class ListAllFragment extends Fragment{
     private String datas;
     private Integer data_size;
 
-
-
     public ListAllFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ListAllFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static ListAllFragment newInstance(String param1, String param2) {
         ListAllFragment fragment = new ListAllFragment();
         Bundle args = new Bundle();
@@ -91,7 +68,6 @@ public class ListAllFragment extends Fragment{
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
     }
 
     @Override
@@ -218,8 +194,8 @@ public class ListAllFragment extends Fragment{
         }
         money = view.findViewById(R.id.total_money);
         money.setText("總金額      " + Long.toString(money_long) + " $");
-
     }
+    /*array delete element by index*/
     public static String[] removeElement(String[] arr, int index ){
         String[] arrDestination = new String[arr.length - 1];
         int remainingElements = arr.length - ( index + 1 );

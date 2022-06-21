@@ -46,6 +46,7 @@ public class NewActivity extends AppCompatActivity{
     private static final String INCOME = "income";
     private static final int REQUEST_COST_VOICE = 0;
     private static final int REQUEST_EX_VOICE = 1;
+
     @SuppressLint("SimpleDateFormat")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +78,6 @@ public class NewActivity extends AppCompatActivity{
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        /**itemId為稍後判斷點擊事件要用的*/
         menu.add(0,0,0,"").setIcon(R.drawable.ic_check).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         return super.onCreateOptionsMenu(menu);
     }

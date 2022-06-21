@@ -72,6 +72,7 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+        // findViewById
         mDate = findViewById(R.id.dateTV);
         mBalance = findViewById(R.id.balanceTV);
         mType = findViewById(R.id.typeTV);
@@ -80,16 +81,18 @@ public class DetailActivity extends AppCompatActivity {
         mTypeTV = findViewById(R.id.textViewType);
         mCostTV = findViewById(R.id.textViewCost);
         mExTV = findViewById(R.id.textViewEx);
-        Toolbar toolbar = findViewById(R.id.Detail_toolbar);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
         mDateButton = findViewById(R.id.detail_Date_button);
         mTextviewTime = findViewById(R.id.detail_tvTime);
         mRadioGroup = findViewById(R.id.detail_radioGroup);
         mCostMTV = findViewById(R.id.detail_costMTV);
         mExMTV = findViewById(R.id.detail_exMTV);
+        // Toolbar setting
+        Toolbar toolbar = findViewById(R.id.Detail_toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
         flag = true;
+        // get value by intent
         Intent intent = getIntent();
         data = intent.getStringExtra(DATA);
         String[] arr = data.split(SPLIT_CHAR2);
@@ -114,8 +117,6 @@ public class DetailActivity extends AppCompatActivity {
         mType.setText(type);
         mBalance.setText(getResources().getString(R.string.costTV) + arr[2]);
         mEx.setText(getResources().getString(R.string.ex) + arr[3]);
-
-
     }
 
     @Override
@@ -157,6 +158,22 @@ public class DetailActivity extends AppCompatActivity {
                 mExMTV.setVisibility(View.VISIBLE);
                 mExMTV.setText(arr[3]);
                 return true;
+            case R.id.cancel:
+                flag = true;
+                mDate.setVisibility(View.VISIBLE);
+                mType.setVisibility(View.VISIBLE);
+                mBalance.setVisibility(View.VISIBLE);
+                mEx.setVisibility(View.VISIBLE);
+                mTimeTV.setVisibility(View.INVISIBLE);
+                mTypeTV.setVisibility(View.INVISIBLE);
+                mCostTV.setVisibility(View.INVISIBLE);
+                mExTV.setVisibility(View.INVISIBLE);
+                mDateButton.setVisibility(View.INVISIBLE);
+                mTextviewTime.setVisibility(View.INVISIBLE);
+                mRadioGroup.setVisibility(View.INVISIBLE);
+                mCostMTV.setVisibility(View.INVISIBLE);
+                mExMTV.setVisibility(View.INVISIBLE);
+                return true;
             case R.id.check:
                 flag = true;
                 Intent req = getIntent();
@@ -184,28 +201,14 @@ public class DetailActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
                 return true;
-            case R.id.cancel:
-                flag = true;
-                mDate.setVisibility(View.VISIBLE);
-                mType.setVisibility(View.VISIBLE);
-                mBalance.setVisibility(View.VISIBLE);
-                mEx.setVisibility(View.VISIBLE);
-                mTimeTV.setVisibility(View.INVISIBLE);
-                mTypeTV.setVisibility(View.INVISIBLE);
-                mCostTV.setVisibility(View.INVISIBLE);
-                mExTV.setVisibility(View.INVISIBLE);
-                mDateButton.setVisibility(View.INVISIBLE);
-                mTextviewTime.setVisibility(View.INVISIBLE);
-                mRadioGroup.setVisibility(View.INVISIBLE);
-                mCostMTV.setVisibility(View.INVISIBLE);
-                mExMTV.setVisibility(View.INVISIBLE);
-                return true;
+
             default:
                 // Do nothing
         }
         return super.onOptionsItemSelected(item);
     }
 
+    // 語音功能
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -224,7 +227,7 @@ public class DetailActivity extends AppCompatActivity {
             mExMTV.setText(spokenText);
         }
     }
-
+    // 時間功能
     public void ClickDate(View view) {
         TimePickerFragment Time = new TimePickerFragment();
         Time.show(getSupportFragmentManager(),"timePicker");
@@ -249,7 +252,7 @@ public class DetailActivity extends AppCompatActivity {
         mTextviewTime.setText(timeMessage);
         makeToast("已更新時間為\n" + timeMessage);
     }
-
+    // 金額類型選擇
     @SuppressLint("NonConstantResourceId")
     public void onRadioButtonClicked(View view) {
         boolean checked = ((RadioButton) view).isChecked();

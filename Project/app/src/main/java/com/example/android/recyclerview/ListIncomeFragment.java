@@ -20,32 +20,21 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Objects;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ListIncomeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ListIncomeFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private String mParam1;
+    private String mParam2;
 
     public final LinkedList<String> mWordList = new LinkedList<>();
     public final LinkedList<Integer> mPositionList = new LinkedList<>();
     private RecyclerView mRecyclerView;
     private WordListAdapter mAdapter;
-
     private TextView money;
-
+    /*Keys*/
     private static final String DATASIZE_KEY = "DataSize";
     private static final String DATAS_KEY = "Datas";
-    /*Input Keys*/
-    private static final String ACT_KEY = "Activity";
-    private static final String NEW_KEY = "New";
-    private static final String POS_KEY = "Pos";
-
     private static final String SPLIT_CHAR = "!@";
     private static final String SPLIT_CHAR2 = "#%";
 
@@ -55,23 +44,10 @@ public class ListIncomeFragment extends Fragment {
     private String datas;
     private Integer data_size;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     public ListIncomeFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ListIncomeFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static ListIncomeFragment newInstance(String param1, String param2) {
         ListIncomeFragment fragment = new ListIncomeFragment();
         Bundle args = new Bundle();
@@ -93,7 +69,6 @@ public class ListIncomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.tab_list_income, container, false);
     }
 

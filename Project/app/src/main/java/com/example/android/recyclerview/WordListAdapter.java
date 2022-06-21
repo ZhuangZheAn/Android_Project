@@ -42,21 +42,17 @@ import java.util.Objects;
 public class WordListAdapter extends
         RecyclerView.Adapter<WordListAdapter.WordViewHolder> {
 
-
-
     private final LinkedList<String> mWordList;
     private final LinkedList<Integer> mRealPositionList;
     private final LayoutInflater mInflater;
-    private static final String SPLIT_CHAR2 = "#%";
 
+    private static final String SPLIT_CHAR2 = "#%";
     private static final String EXPENSE = "expense";
     private static final String INCOME = "income";
-    long money;
-    /*Input Keys*/
-
-    /*Output Keys*/
     private static final String DATA = "data";
     private static final String POSITION = "position";
+
+    long money;
 
     class WordViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         public final TextView wordItemView;
@@ -91,16 +87,13 @@ public class WordListAdapter extends
         @Override
         public boolean onLongClick(View view) {
             int mPosition = getLayoutPosition();
-            // Use that to access the affected item in mWordList.
             String element = mWordList.get(mPosition);
             Integer realPosition = mRealPositionList.get(mPosition);
-            // Change the word in the mWordList.
             PopupMenu popupMenu = new PopupMenu(view.getContext(), itemView);
             popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
             popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem menuItem) {
-                    // Toast message on menu item clicked
                     CharSequence title = menuItem.getTitle();
                     if (title.equals("編輯")) {
                         Intent intent = new Intent(view.getContext(), DetailActivity.class);
@@ -121,7 +114,6 @@ public class WordListAdapter extends
                                         dialog.cancel();
                                     }
                                 });
-
                         builder.setNegativeButton(
                                 "確定",
                                 new DialogInterface.OnClickListener() {
@@ -151,7 +143,6 @@ public class WordListAdapter extends
 
     @Override
     public WordListAdapter.WordViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        // Inflate an item view.
         View mItemView = mInflater.inflate(
                 R.layout.wordlist_item, parent, false);
         return new WordViewHolder(mItemView, this);
