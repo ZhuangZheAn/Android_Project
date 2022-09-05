@@ -20,19 +20,18 @@ public class TimePickerFragment extends DialogFragment
             c = Calendar.getInstance();
             hour = c.get(Calendar.HOUR_OF_DAY);
             minute = c.get(Calendar.MINUTE);
-        }
-        else{
-            Toast.makeText(getContext(),"can't open calander",Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getContext(), "can't open calander", Toast.LENGTH_LONG).show();
         }
         return new TimePickerDialog(getActivity(), this, hour, minute, true);
     }
 
     @Override
-    public void onTimeSet(TimePicker TimePicker, int year , int month){
-        try{
+    public void onTimeSet(TimePicker TimePicker, int year, int month) {
+        try {
             DetailActivity detailActivity = (DetailActivity) getActivity();
             detailActivity.processTimePickerResult(year, month);
-        }catch (Exception e){
+        } catch (Exception e) {
             NewActivity detailActivity = (NewActivity) getActivity();
             detailActivity.processTimePickerResult(year, month);
         }

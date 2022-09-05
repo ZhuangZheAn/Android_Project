@@ -6,22 +6,27 @@ import static java.util.Arrays.sort;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Objects;
 
-public class ListAllFragment extends Fragment{
+public class ListAllFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -89,29 +94,28 @@ public class ListAllFragment extends Fragment{
         String req = intent.getStringExtra(NEW_KEY);
         String cb_activity = intent.getStringExtra(ACT_KEY);
 
-        data_size = mPreferences.getInt(DATASIZE_KEY,0);
-        datas = mPreferences.getString(DATAS_KEY,"");
+        data_size = mPreferences.getInt(DATASIZE_KEY, 0);
+        datas = mPreferences.getString(DATAS_KEY, "");
         String[] arr;
-        if(cb_activity == null || cb_activity == ""){
-            if(data_size != 0){
+        if (cb_activity == null || cb_activity == "") {
+            if (data_size != 0) {
                 arr = datas.split(SPLIT_CHAR);
                 sort(arr, Collections.reverseOrder());
-                for(int i = 0; i < data_size; i++){
+                for (int i = 0; i < data_size; i++) {
                     mWordList.addLast(arr[i]);
                     mPositionList.addLast(i);
                 }
             }
-        } else{
-            data_size = mPreferences.getInt(DATASIZE_KEY,0);
-            switch (cb_activity){
+        } else {
+            data_size = mPreferences.getInt(DATASIZE_KEY, 0);
+            switch (cb_activity) {
                 case "NewActivity":
                     data_size += 1;
                     arr = new String[data_size];
-                    if(datas == ""){
+                    if (datas == "") {
                         datas = req;
                         arr[0] = req;
-                    }
-                    else{
+                    } else {
                         datas += SPLIT_CHAR + req;
                         arr = datas.split(SPLIT_CHAR);
                         sort(arr);
@@ -121,24 +125,24 @@ public class ListAllFragment extends Fragment{
                     preferencesEditor.putString(DATAS_KEY, datas);
                     preferencesEditor.apply();
 
-                    for(int i = 0; i < data_size; i++){
+                    for (int i = 0; i < data_size; i++) {
                         mWordList.addLast(arr[i]);
                         mPositionList.addLast(i);
                     }
                     break;
                 case "DetailActivity":
-                    int position = intent.getIntExtra(POS_KEY,0);
+                    int position = intent.getIntExtra(POS_KEY, 0);
                     arr = datas.split(SPLIT_CHAR);
                     arr[data_size - position - 1] = req;
                     sort(arr);
                     datas = arr[0];
-                    for(int i = 1; i < data_size; i++){
+                    for (int i = 1; i < data_size; i++) {
                         datas += SPLIT_CHAR + arr[i];
                     }
                     preferencesEditor.putString(DATAS_KEY, datas);
                     preferencesEditor.apply();
                     Collections.reverse(Arrays.asList(arr));
-                    for(int i = 0; i < data_size; i++){
+                    for (int i = 0; i < data_size; i++) {
                         mWordList.addLast(arr[i]);
                         mPositionList.addLast(i);
                     }
@@ -146,59 +150,73 @@ public class ListAllFragment extends Fragment{
                 case "WordListAdapter":
                     Integer del_pos = Integer.parseInt(intent.getStringExtra(DEL_KEY));
                     arr = datas.split(SPLIT_CHAR);
-                    arr = removeElement(arr,data_size - del_pos - 1);
+                    arr = removeElement(arr, data_size - del_pos - 1);
                     sort(arr);
                     data_size -= 1;
-                    if(data_size == 0){
+                    if (data_size == 0) {
                         preferencesEditor.putInt(DATASIZE_KEY, data_size);
                         preferencesEditor.putString(DATAS_KEY, "");
                         preferencesEditor.apply();
-                    }
-                    else{
+                    } else {
                         datas = arr[0];
-                        for(int i = 1; i < data_size; i++){
+                        for (int i = 1; i < data_size; i++) {
                             datas += SPLIT_CHAR + arr[i];
                         }
                         preferencesEditor.putInt(DATASIZE_KEY, data_size);
                         preferencesEditor.putString(DATAS_KEY, datas);
                         preferencesEditor.apply();
                         Collections.reverse(Arrays.asList(arr));
-                        for(int i = 0; i < data_size; i++){
+                        for (int i = 0; i < data_size; i++) {
                             mWordList.addLast(arr[i]);
                             mPositionList.addLast(i);
                         }
                     }
                     break;
                 default:
-                    Toast.makeText(view.getContext(),"UNDEFINE ACTIVITY",Toast.LENGTH_LONG).show();
+                    Toast.makeText(view.getContext(), "UNDEFINE ACTIVITY", Toast.LENGTH_LONG).show();
                     break;
             }
-            intent.putExtra(ACT_KEY,"");
+            intent.putExtra(ACT_KEY, "");
         }
-        if(data_size == 0){
+        if (data_size == 0) {
             view.findViewById(R.id.hintTextView).setVisibility(View.VISIBLE);
             view.findViewById(R.id.total_money).setVisibility(View.INVISIBLE);
-        }
-        else{
+        } else {
             view.findViewById(R.id.hintTextView).setVisibility(View.INVISIBLE);
             view.findViewById(R.id.total_money).setVisibility(View.VISIBLE);
         }
         long money_long = 0;
         arr = datas.split(SPLIT_CHAR);
-        for(int i = 0; i < data_size; i++){
-            if (Objects.equals(arr[i].split(SPLIT_CHAR2)[1], "expense")){
+        for (int i = 0; i < data_size; i++) {
+            if (Objects.equals(arr[i].split(SPLIT_CHAR2)[1], "expense")) {
                 money_long -= Long.parseLong(arr[i].split(SPLIT_CHAR2)[2]);
-            }else{
+            } else {
                 money_long += Long.parseLong(arr[i].split(SPLIT_CHAR2)[2]);
             }
         }
+        DecimalFormat fmt = new DecimalFormat("##,###,###,###,##0");
         money = view.findViewById(R.id.total_money);
-        money.setText("總金額      " + Long.toString(money_long) + " $");
+        String moneyTotalText = "總金額     ";
+        String moneyLongFormat = "";
+        String moneyTextFormat = "";
+        Boolean moneyIsNegative = money_long < 0;
+        if (moneyIsNegative) {
+            money_long -= 2 * money_long;
+            moneyLongFormat = fmt.format(money_long);
+            moneyTextFormat = moneyTotalText + "-$ " + moneyLongFormat;
+        } else {
+            moneyLongFormat = fmt.format(money_long);
+            moneyTextFormat = moneyTotalText + "+$ " + moneyLongFormat;
+        }
+        Spannable spannable = new SpannableString(moneyTextFormat);
+        spannable.setSpan(new ForegroundColorSpan((moneyIsNegative) ? Color.GREEN : Color.RED), moneyTotalText.length(), moneyTextFormat.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        money.setText(spannable, TextView.BufferType.SPANNABLE);
     }
+
     /*array delete element by index*/
-    public static String[] removeElement(String[] arr, int index ){
+    public static String[] removeElement(String[] arr, int index) {
         String[] arrDestination = new String[arr.length - 1];
-        int remainingElements = arr.length - ( index + 1 );
+        int remainingElements = arr.length - (index + 1);
         System.arraycopy(arr, 0, arrDestination, 0, index);
         System.arraycopy(arr, index + 1, arrDestination, index, remainingElements);
         return arrDestination;

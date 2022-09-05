@@ -3,6 +3,7 @@ package com.example.android.recyclerview;
 import static android.content.Context.MODE_PRIVATE;
 import static java.util.Arrays.sort;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -45,7 +47,6 @@ public class ListExpenseFragment extends Fragment {
     private Integer data_size;
 
 
-
     public ListExpenseFragment() {
         // Required empty public constructor
     }
@@ -73,20 +74,22 @@ public class ListExpenseFragment extends Fragment {
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.tab_list_expense, container, false);
     }
+
+    @SuppressLint("SetTextI18n")
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         mPreferences = this.getActivity().getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
 
-        data_size = mPreferences.getInt(DATASIZE_KEY,0);
-        datas = mPreferences.getString(DATAS_KEY,"");
+        data_size = mPreferences.getInt(DATASIZE_KEY, 0);
+        datas = mPreferences.getString(DATAS_KEY, "");
         String[] arr;
         String type;
-        if(data_size != 0){
+        if (data_size != 0) {
             arr = datas.split(SPLIT_CHAR);
             sort(arr, Collections.reverseOrder());
-            for(int i = 0; i < data_size; i++){
+            for (int i = 0; i < data_size; i++) {
                 type = arr[i].split(SPLIT_CHAR2)[1];
-                if(Objects.equals(type, "expense")){
+                if (Objects.equals(type, "expense")) {
                     mWordList.addLast(arr[i]);
                     mPositionList.addLast(i);
                 }
@@ -96,22 +99,22 @@ public class ListExpenseFragment extends Fragment {
             mRecyclerView.setAdapter(mAdapter);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         }
-        if(data_size == 0){
+        if (data_size == 0) {
             view.findViewById(R.id.hintExpense).setVisibility(View.VISIBLE);
             view.findViewById(R.id.expense_money).setVisibility(View.INVISIBLE);
-        }
-        else{
+        } else {
             view.findViewById(R.id.hintExpense).setVisibility(View.INVISIBLE);
             view.findViewById(R.id.expense_money).setVisibility(View.VISIBLE);
         }
         long money_long = 0;
         arr = datas.split(SPLIT_CHAR);
-        for(int i = 0; i < data_size; i++){
-            if (Objects.equals(arr[i].split(SPLIT_CHAR2)[1], "expense")){
+        for (int i = 0; i < data_size; i++) {
+            if (Objects.equals(arr[i].split(SPLIT_CHAR2)[1], "expense")) {
                 money_long += Long.parseLong(arr[i].split(SPLIT_CHAR2)[2]);
             }
         }
+        DecimalFormat fmt = new DecimalFormat("##,###,###,###,##0");
         money = view.findViewById(R.id.expense_money);
-        money.setText("  總支出      " + Long.toString(money_long) + " $  ");
+        money.setText("  總支出      $ " + fmt.format(money_long));
     }
 }

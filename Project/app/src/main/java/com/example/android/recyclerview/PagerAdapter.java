@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 public class PagerAdapter extends FragmentStatePagerAdapter {
     int mNumOfTabs;
+
     public PagerAdapter(FragmentManager fm, int NumberOfTabs) {
         super(fm);
         this.mNumOfTabs = NumberOfTabs;
@@ -14,10 +15,14 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         switch (position) {
-            case 0: return new ListExpenseFragment();
-            case 1: return new ListAllFragment();
-            case 2: return new ListIncomeFragment();
-            default: return null;
+            case 0:
+                return new ListExpenseFragment();
+            case 1:
+                return new ListAllFragment();
+            case 2:
+                return new ListIncomeFragment();
+            default:
+                return null;
         }
     }
 

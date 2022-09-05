@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -77,16 +78,16 @@ public class ListIncomeFragment extends Fragment {
         mPreferences = this.getActivity().getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
         SharedPreferences.Editor preferencesEditor = mPreferences.edit();
 
-        data_size = mPreferences.getInt(DATASIZE_KEY,0);
-        datas = mPreferences.getString(DATAS_KEY,"");
+        data_size = mPreferences.getInt(DATASIZE_KEY, 0);
+        datas = mPreferences.getString(DATAS_KEY, "");
         String[] arr;
         String type;
-        if(data_size != 0){
+        if (data_size != 0) {
             arr = datas.split(SPLIT_CHAR);
             sort(arr, Collections.reverseOrder());
-            for(int i = 0; i < data_size; i++){
+            for (int i = 0; i < data_size; i++) {
                 type = arr[i].split(SPLIT_CHAR2)[1];
-                if(Objects.equals(type, "income")){
+                if (Objects.equals(type, "income")) {
                     mWordList.addLast(arr[i]);
                     mPositionList.addLast(i);
                 }
@@ -96,22 +97,22 @@ public class ListIncomeFragment extends Fragment {
             mRecyclerView.setAdapter(mAdapter);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         }
-        if(data_size == 0){
+        if (data_size == 0) {
             view.findViewById(R.id.hintIncome).setVisibility(View.VISIBLE);
             view.findViewById(R.id.income_money).setVisibility(View.INVISIBLE);
-        }
-        else{
+        } else {
             view.findViewById(R.id.hintIncome).setVisibility(View.INVISIBLE);
             view.findViewById(R.id.income_money).setVisibility(View.VISIBLE);
         }
         long money_long = 0;
         arr = datas.split(SPLIT_CHAR);
-        for(int i = 0; i < data_size; i++){
-            if (Objects.equals(arr[i].split(SPLIT_CHAR2)[1], "income")){
+        for (int i = 0; i < data_size; i++) {
+            if (Objects.equals(arr[i].split(SPLIT_CHAR2)[1], "income")) {
                 money_long += Long.parseLong(arr[i].split(SPLIT_CHAR2)[2]);
             }
         }
+        DecimalFormat fmt = new DecimalFormat("##,###,###,###,##0");
         money = view.findViewById(R.id.income_money);
-        money.setText("  總收入      " + Long.toString(money_long) + " $  ");
+        money.setText("  總收入      $ " + fmt.format(money_long));
     }
 }

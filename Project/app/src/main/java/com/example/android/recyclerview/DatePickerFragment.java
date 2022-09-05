@@ -22,19 +22,18 @@ public class DatePickerFragment extends DialogFragment
             year = c.get(Calendar.YEAR);
             month = c.get(Calendar.MONTH);
             day = c.get(Calendar.DAY_OF_MONTH);
+        } else {
+            Toast.makeText(getContext(), "can't open calander", Toast.LENGTH_LONG).show();
         }
-        else{
-            Toast.makeText(getContext(),"can't open calander",Toast.LENGTH_LONG).show();
-        }
-        return new DatePickerDialog(getActivity(),this, year, month, day);
+        return new DatePickerDialog(getActivity(), this, year, month, day);
     }
 
     @Override
-    public void onDateSet(DatePicker datePicker,int year , int month, int day){
-        try{
+    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+        try {
             DetailActivity activity = (DetailActivity) getActivity();
             activity.processDatePickerResult(year, month, day);
-        }catch(Exception e){
+        } catch (Exception e) {
             NewActivity activity = (NewActivity) getActivity();
             activity.processDatePickerResult(year, month, day);
         }

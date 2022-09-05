@@ -78,8 +78,8 @@ public class WordListAdapter extends
             Integer realPosition = mRealPositionList.get(mPosition);
             // Change the word in the mWordList.
             Intent intent = new Intent(view.getContext(), DetailActivity.class);
-            intent.putExtra(DATA,element);
-            intent.putExtra(POSITION,realPosition);
+            intent.putExtra(DATA, element);
+            intent.putExtra(POSITION, realPosition);
             view.getContext().startActivity(intent);
             mAdapter.notifyDataSetChanged();
         }
@@ -101,8 +101,7 @@ public class WordListAdapter extends
                         intent.putExtra(POSITION, mPosition);
                         view.getContext().startActivity(intent);
                         mAdapter.notifyDataSetChanged();
-                    }
-                    else if (title.equals("刪除")) {
+                    } else if (title.equals("刪除")) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
                         builder.setTitle("警告!!");
                         builder.setMessage("這個動作會刪除目前選擇的資料");
@@ -118,8 +117,8 @@ public class WordListAdapter extends
                                 "確定",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
-                                        Intent intent = new Intent(view.getContext(),NewActivity.class);
-                                        intent.putExtra("tmp","delete" + realPosition);
+                                        Intent intent = new Intent(view.getContext(), NewActivity.class);
+                                        intent.putExtra("tmp", "delete" + realPosition);
                                         view.getContext().startActivity(intent);
                                         dialog.cancel();
                                     }
@@ -135,6 +134,7 @@ public class WordListAdapter extends
             return false;
         }
     }
+
     public WordListAdapter(Context context, LinkedList<String> wordList, LinkedList<Integer> realPosition) {
         mInflater = LayoutInflater.from(context);
         this.mWordList = wordList;
@@ -148,39 +148,45 @@ public class WordListAdapter extends
         return new WordViewHolder(mItemView, this);
     }
 
-    @SuppressLint({"SetTextI18n", "ObsoleteSdkInt"})
+    @SuppressLint({"SetTextI18n", "ObsoleteSdkInt", "DefaultLocale"})
     @Override
     public void onBindViewHolder(WordListAdapter.WordViewHolder holder,
                                  int position) {
         holder.mbalance.bringToFront();
         String mCurrent = mWordList.get(position);
         String[] arr = mCurrent.split(SPLIT_CHAR2);
-        String[] unit = {"","K","M","B","T"};
+        String[] unit = {"", "K", "M", "B", "T"};
         long balance = Long.parseLong(arr[2]);
         String balance_with_unit = "";
-        for(int i = 4; i >= 0; i--){
-            if(balance >= Math.pow(10,i*3)){
-                BigDecimal bd = new BigDecimal(balance / Math.pow(10,i*3)).setScale(1, RoundingMode.DOWN);
-                balance_with_unit = bd.doubleValue() + unit[i] + " $";
-                if(i <= 1) balance_with_unit = balance + " $";
+        for (int i = 4; i >= 0; i--) {
+            if (balance >= Math.pow(10, i * 3)) {
+                BigDecimal bd = new BigDecimal(balance / Math.pow(10, i * 3)).setScale(2, RoundingMode.HALF_DOWN);
+                balance_with_unit = "$ " + bd.doubleValue() + unit[i] + " ";
+                if (i <= 1) {
+                    if (balance >= 1000) {
+                        balance_with_unit = "$ " + balance / 1000 + "," + String.format("%03d", (balance % 1000)) + " ";
+                    } else {
+                        balance_with_unit = "$ " + balance + " ";
+                    }
+
+                }
                 break;
             }
         }
-        if(Objects.equals(arr[1], EXPENSE)){
+        if (Objects.equals(arr[1], EXPENSE)) {
             holder.mbalance.setText("- " + balance_with_unit);
             holder.mbalance.setTextColor(Color.BLACK);
-            if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                holder.mbalance.setBackgroundDrawable(ContextCompat.getDrawable(holder.mbalance.getContext(), R.drawable.expense_background) );
+            if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                holder.mbalance.setBackgroundDrawable(ContextCompat.getDrawable(holder.mbalance.getContext(), R.drawable.expense_background));
             } else {
                 holder.mbalance.setBackground(ContextCompat.getDrawable(holder.mbalance.getContext(), R.drawable.expense_background));
             }
             money -= balance;
-        }
-        else{
+        } else {
             holder.mbalance.setText("+ " + balance_with_unit);
             holder.mbalance.setTextColor(Color.WHITE);
-            if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                holder.mbalance.setBackgroundDrawable(ContextCompat.getDrawable(holder.mbalance.getContext(), R.drawable.income_background) );
+            if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                holder.mbalance.setBackgroundDrawable(ContextCompat.getDrawable(holder.mbalance.getContext(), R.drawable.income_background));
             } else {
                 holder.mbalance.setBackground(ContextCompat.getDrawable(holder.mbalance.getContext(), R.drawable.income_background));
             }

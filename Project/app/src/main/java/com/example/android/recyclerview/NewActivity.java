@@ -23,7 +23,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
-public class NewActivity extends AppCompatActivity{
+public class NewActivity extends AppCompatActivity {
 
     private TextView mTextviewTime;
     private EditText mCostMTV;
@@ -62,15 +62,14 @@ public class NewActivity extends AppCompatActivity{
         GetNowTime();
         Intent intent = getIntent();
         String tmp = intent.getStringExtra("tmp");
-        if(tmp != null){
-            if(Objects.equals(tmp, "back")){
-                Intent intent1 = new Intent(NewActivity.this,MainActivity.class);
+        if (tmp != null) {
+            if (Objects.equals(tmp, "back")) {
+                Intent intent1 = new Intent(NewActivity.this, MainActivity.class);
                 startActivity(intent1);
-            }
-            else if(tmp.substring(0,6).equals("delete")){
-                Intent intent1 = new Intent(NewActivity.this,MainActivity.class);
+            } else if (tmp.substring(0, 6).equals("delete")) {
+                Intent intent1 = new Intent(NewActivity.this, MainActivity.class);
                 intent1.putExtra(DEL_KEY, tmp.substring(6));
-                intent1.putExtra(ACT_KEY,"WordListAdapter");
+                intent1.putExtra(ACT_KEY, "WordListAdapter");
                 startActivity(intent1);
             }
         }
@@ -78,7 +77,7 @@ public class NewActivity extends AppCompatActivity{
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add(0,0,0,"").setIcon(R.drawable.ic_check).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        menu.add(0, 0, 0, "").setIcon(R.drawable.ic_check).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -88,7 +87,7 @@ public class NewActivity extends AppCompatActivity{
             case 0:
                 String cost = mCostMTV.getText().toString();
                 String ex = mExMTV.getText().toString();
-                if(Objects.equals(cost, "")){
+                if (Objects.equals(cost, "")) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setTitle("提醒");
                     builder.setMessage("金額不可留空");
@@ -98,10 +97,9 @@ public class NewActivity extends AppCompatActivity{
                             (dialog, id) -> dialog.cancel());
                     AlertDialog alert = builder.create();
                     alert.show();
-                }
-                else{
-                    if(expenseOrIncome == null) expenseOrIncome = EXPENSE;
-                    if(Objects.equals(ex, "")) ex = "no message";
+                } else {
+                    if (expenseOrIncome == null) expenseOrIncome = EXPENSE;
+                    if (Objects.equals(ex, "")) ex = "no message";
                     String extra = timeMessage + SPLIT_CHAR2 + expenseOrIncome + SPLIT_CHAR2 + cost + SPLIT_CHAR2 + ex;
                     Intent intent = new Intent(this, MainActivity.class);
                     intent.putExtra(NEW_KEY, extra);
@@ -126,21 +124,21 @@ public class NewActivity extends AppCompatActivity{
 
     public void ClickDate(View view) {
         TimePickerFragment Time = new TimePickerFragment();
-        Time.show(getSupportFragmentManager(),"timePicker");
+        Time.show(getSupportFragmentManager(), "timePicker");
         DatePickerFragment Date = new DatePickerFragment();
-        Date.show(getSupportFragmentManager(),"datePicker");
+        Date.show(getSupportFragmentManager(), "datePicker");
     }
 
     @SuppressLint("DefaultLocale")
-    public void processDatePickerResult(int year, int month, int day){
+    public void processDatePickerResult(int year, int month, int day) {
         month_string = String.format("%02d", month + 1); // 月份使從0開始的，要加1
         day_string = String.format("%02d", day);
         year_string = String.format("%04d", year);
     }
 
     @SuppressLint("DefaultLocale")
-    public void processTimePickerResult(int hour, int minute){
-        hour_string = String.format("%02d",hour);
+    public void processTimePickerResult(int hour, int minute) {
+        hour_string = String.format("%02d", hour);
         minute_string = String.format("%02d", minute);
         second_string = "00";
         timeMessage = year_string + "/" + month_string + "/" + day_string + " "
@@ -150,7 +148,7 @@ public class NewActivity extends AppCompatActivity{
     }
 
     @SuppressLint("SimpleDateFormat")
-    public void GetNowTime(){
+    public void GetNowTime() {
         year_string = new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime());
         month_string = new SimpleDateFormat("MM").format(Calendar.getInstance().getTime());
         day_string = new SimpleDateFormat("dd").format(Calendar.getInstance().getTime());
@@ -169,13 +167,13 @@ public class NewActivity extends AppCompatActivity{
         boolean checked = ((RadioButton) view).isChecked();
         switch (view.getId()) {
             case R.id.expenseRB:
-                if (checked){
+                if (checked) {
                     expenseOrIncome = EXPENSE;
                     makeToast(getString(R.string.expenseRB_toast));
                 }
                 break;
             case R.id.incomeRB:
-                if (checked){
+                if (checked) {
                     expenseOrIncome = INCOME;
                     makeToast(getString(R.string.incomeRB_toast));
                 }
@@ -197,14 +195,13 @@ public class NewActivity extends AppCompatActivity{
     private void displaySpeechRecognizer(int requset_code) {
         PackageManager pm = getPackageManager();
         List<ResolveInfo> activities = pm.queryIntentActivities(
-                new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH),0);
-        if(activities.size() != 0){
+                new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
+        if (activities.size() != 0) {
             Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
             intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                     RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
             startActivityForResult(intent, requset_code);
-        }
-        else{
+        } else {
             makeToast("你無法使用語音");
         }
     }
@@ -216,21 +213,20 @@ public class NewActivity extends AppCompatActivity{
             List<String> results = data.getStringArrayListExtra(
                     RecognizerIntent.EXTRA_RESULTS);
             String spokenText = results.get(0);
-            Toast.makeText(this,spokenText,Toast.LENGTH_SHORT).show();
-            mCostMTV.setText(spokenText.replaceAll("[^0-9]",""));
-        }
-        else if (requestCode == REQUEST_EX_VOICE && resultCode == RESULT_OK) {
+            Toast.makeText(this, spokenText, Toast.LENGTH_SHORT).show();
+            mCostMTV.setText(spokenText.replaceAll("[^0-9]", ""));
+        } else if (requestCode == REQUEST_EX_VOICE && resultCode == RESULT_OK) {
             List<String> results = data.getStringArrayListExtra(
                     RecognizerIntent.EXTRA_RESULTS);
             String spokenText = results.get(0);
-            Toast.makeText(this,spokenText,Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, spokenText, Toast.LENGTH_SHORT).show();
             mExMTV.setText(spokenText);
         }
     }
 
     //quick make toast
 
-    public void makeToast(String msg){
+    public void makeToast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 

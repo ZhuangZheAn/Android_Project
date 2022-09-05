@@ -41,27 +41,27 @@ public class MainActivity extends AppCompatActivity {
         viewPager.addOnPageChangeListener(new
                 TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new
-           TabLayout.OnTabSelectedListener() {
-               @Override
-               public void onTabSelected(TabLayout.Tab tab) {
-                   viewPager.setCurrentItem(tab.getPosition());
-               }
+                                                   TabLayout.OnTabSelectedListener() {
+                                                       @Override
+                                                       public void onTabSelected(TabLayout.Tab tab) {
+                                                           viewPager.setCurrentItem(tab.getPosition());
+                                                       }
 
-               @Override
-               public void onTabUnselected(TabLayout.Tab tab) {
-               }
+                                                       @Override
+                                                       public void onTabUnselected(TabLayout.Tab tab) {
+                                                       }
 
-               @Override
-               public void onTabReselected(TabLayout.Tab tab) {
-               }
-           });
+                                                       @Override
+                                                       public void onTabReselected(TabLayout.Tab tab) {
+                                                       }
+                                                   });
         viewPager.setCurrentItem(1);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add(0,0,0,"").setIcon(R.drawable.ic_new).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-        menu.add(0,1,1,"").setIcon(R.drawable.ic_delete).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        menu.add(0, 0, 0, "").setIcon(R.drawable.ic_new).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        menu.add(0, 1, 1, "").setIcon(R.drawable.ic_delete).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
                                 preferencesEditor.clear();
                                 preferencesEditor.apply();
                                 Intent intent = new Intent(MainActivity.this, NewActivity.class);
-                                intent.putExtra("tmp","back");
+                                intent.putExtra("tmp", "back");
                                 startActivity(intent);
                                 makeToast("已刪除所有資料");
                                 dialog.cancel();
@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void makeToast(String message){
-        Toast.makeText(this, message,Toast.LENGTH_SHORT).show();
+    public void makeToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }

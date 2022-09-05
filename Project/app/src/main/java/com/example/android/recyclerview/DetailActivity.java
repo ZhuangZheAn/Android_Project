@@ -20,6 +20,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Objects;
 
@@ -97,34 +99,32 @@ public class DetailActivity extends AppCompatActivity {
         data = intent.getStringExtra(DATA);
         String[] arr = data.split(SPLIT_CHAR2);
         timeMessage = arr[0];
-        year_string = timeMessage.substring(0,4);
-        month_string = timeMessage.substring(5,7);
-        day_string = timeMessage.substring(8,10);
-        hour_string = timeMessage.substring(11,13);
-        minute_string = timeMessage.substring(14,16);
-        second_string = timeMessage.substring(17,19);
+        year_string = timeMessage.substring(0, 4);
+        month_string = timeMessage.substring(5, 7);
+        day_string = timeMessage.substring(8, 10);
+        hour_string = timeMessage.substring(11, 13);
+        minute_string = timeMessage.substring(14, 16);
+        second_string = timeMessage.substring(17, 19);
         String type = getResources().getString(R.string.typeTV);
         expenseOrIncome = arr[1];
-        if(Objects.equals(expenseOrIncome, EXPENSE)){
+        if (Objects.equals(expenseOrIncome, EXPENSE)) {
             mRadioGroup.check(R.id.detail_expenseRB);
             type += getResources().getString(R.string.expense);
-        }
-        else if(Objects.equals(expenseOrIncome, INCOME)){
+        } else if (Objects.equals(expenseOrIncome, INCOME)) {
             mRadioGroup.check(R.id.detail_incomeRB);
             type += getResources().getString(R.string.income);
         }
         mDate.setText(getResources().getString(R.string.timeTV) + timeMessage);
         mType.setText(type);
-        mBalance.setText(getResources().getString(R.string.costTV) + arr[2]);
+        DecimalFormat fmt = new DecimalFormat("##,###,###,###,##0");
+        mBalance.setText(getResources().getString(R.string.costTV) + fmt.format(Long.parseLong(arr[2])));
         mEx.setText(getResources().getString(R.string.ex) + arr[3]);
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu)
-    {
+    public boolean onPrepareOptionsMenu(Menu menu) {
         MenuInflater myMenuInflater = getMenuInflater();
-        if(flag)
-        {
+        if (flag) {
             myMenuInflater.inflate(R.menu.detail_menu1, menu);
         } else {
             myMenuInflater.inflate(R.menu.detail_menu2, menu); // here you show the other menu
@@ -177,10 +177,10 @@ public class DetailActivity extends AppCompatActivity {
             case R.id.check:
                 flag = true;
                 Intent req = getIntent();
-                int position = req.getIntExtra(POSITION,0);
+                int position = req.getIntExtra(POSITION, 0);
                 String cost = mCostMTV.getText().toString();
                 String ex = mExMTV.getText().toString();
-                if(Objects.equals(cost, "")){
+                if (Objects.equals(cost, "")) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setTitle("提醒");
                     builder.setMessage("金額不可留空");
@@ -190,14 +190,13 @@ public class DetailActivity extends AppCompatActivity {
                             (dialog, id) -> dialog.cancel());
                     AlertDialog alert = builder.create();
                     alert.show();
-                }
-                else{
-                    if(Objects.equals(ex, "")) ex = "no message";
+                } else {
+                    if (Objects.equals(ex, "")) ex = "no message";
                     String extra = timeMessage + SPLIT_CHAR2 + expenseOrIncome + SPLIT_CHAR2 + cost + SPLIT_CHAR2 + ex;
                     Intent intent = new Intent(this, MainActivity.class);
-                    intent.putExtra(NEW_KEY,extra);
-                    intent.putExtra(POS_KEY,position);
-                    intent.putExtra(ACT_KEY,"DetailActivity");
+                    intent.putExtra(NEW_KEY, extra);
+                    intent.putExtra(POS_KEY, position);
+                    intent.putExtra(ACT_KEY, "DetailActivity");
                     startActivity(intent);
                 }
                 return true;
@@ -216,35 +215,35 @@ public class DetailActivity extends AppCompatActivity {
             List<String> results = data.getStringArrayListExtra(
                     RecognizerIntent.EXTRA_RESULTS);
             String spokenText = results.get(0);
-            Toast.makeText(this,spokenText,Toast.LENGTH_SHORT).show();
-            mCostMTV.setText(spokenText.replaceAll("[^0-9]",""));
-        }
-        else if (requestCode == REQUEST_EX_VOICE && resultCode == RESULT_OK) {
+            Toast.makeText(this, spokenText, Toast.LENGTH_SHORT).show();
+            mCostMTV.setText(spokenText.replaceAll("[^0-9]", ""));
+        } else if (requestCode == REQUEST_EX_VOICE && resultCode == RESULT_OK) {
             List<String> results = data.getStringArrayListExtra(
                     RecognizerIntent.EXTRA_RESULTS);
             String spokenText = results.get(0);
-            Toast.makeText(this,spokenText,Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, spokenText, Toast.LENGTH_SHORT).show();
             mExMTV.setText(spokenText);
         }
     }
+
     // 時間功能
     public void ClickDate(View view) {
         TimePickerFragment Time = new TimePickerFragment();
-        Time.show(getSupportFragmentManager(),"timePicker");
+        Time.show(getSupportFragmentManager(), "timePicker");
         DatePickerFragment Date = new DatePickerFragment();
-        Date.show(getSupportFragmentManager(),"datePicker");
+        Date.show(getSupportFragmentManager(), "datePicker");
     }
 
     @SuppressLint("DefaultLocale")
-    public void processDatePickerResult(int year, int month, int day){
+    public void processDatePickerResult(int year, int month, int day) {
         month_string = String.format("%02d", month + 1); // 月份使從0開始的，要加1
         day_string = String.format("%02d", day);
         year_string = String.format("%04d", year);
     }
 
     @SuppressLint("DefaultLocale")
-    public void processTimePickerResult(int hour, int minute){
-        hour_string = String.format("%02d",hour);
+    public void processTimePickerResult(int hour, int minute) {
+        hour_string = String.format("%02d", hour);
         minute_string = String.format("%02d", minute);
         second_string = "00";
         timeMessage = year_string + "/" + month_string + "/" + day_string + " "
@@ -252,19 +251,20 @@ public class DetailActivity extends AppCompatActivity {
         mTextviewTime.setText(timeMessage);
         makeToast("已更新時間為\n" + timeMessage);
     }
+
     // 金額類型選擇
     @SuppressLint("NonConstantResourceId")
     public void onRadioButtonClicked(View view) {
         boolean checked = ((RadioButton) view).isChecked();
         switch (view.getId()) {
             case R.id.detail_expenseRB:
-                if (checked){
+                if (checked) {
                     expenseOrIncome = EXPENSE;
                     makeToast(getString(R.string.expenseRB_toast));
                 }
                 break;
             case R.id.detail_incomeRB:
-                if (checked){
+                if (checked) {
                     expenseOrIncome = INCOME;
                     makeToast(getString(R.string.incomeRB_toast));
                 }
@@ -274,5 +274,7 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
-    public void makeToast(String msg){ Toast.makeText(this, msg, Toast.LENGTH_SHORT).show(); }
+    public void makeToast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
 }
