@@ -61,7 +61,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.add(0, 0, 0, "").setIcon(R.drawable.ic_new).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-        menu.add(0, 1, 1, "").setIcon(R.drawable.ic_delete).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        menu.add(0, 1, 1, "").setIcon(R.drawable.ic_search).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        menu.add(0, 2, 2, "").setIcon(R.drawable.ic_delete).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -75,6 +76,10 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             case 1:
+                // 前往尋找頁面
+                makeToast("前往尋找頁面(未完成)");
+                return true;
+            case 2:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("警告!!");
                 builder.setMessage("這個動作會刪除所有已儲存的資料");

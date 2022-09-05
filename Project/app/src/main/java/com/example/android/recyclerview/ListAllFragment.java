@@ -209,7 +209,7 @@ public class ListAllFragment extends Fragment {
             moneyTextFormat = moneyTotalText + "+$ " + moneyLongFormat;
         }
         Spannable spannable = new SpannableString(moneyTextFormat);
-        spannable.setSpan(new ForegroundColorSpan((moneyIsNegative) ? Color.GREEN : Color.RED), moneyTotalText.length(), moneyTextFormat.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannable.setSpan(new ForegroundColorSpan((moneyIsNegative) ? Color.GREEN : Color.parseColor("#f85d6a")), moneyTotalText.length(), moneyTextFormat.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         money.setText(spannable, TextView.BufferType.SPANNABLE);
     }
 

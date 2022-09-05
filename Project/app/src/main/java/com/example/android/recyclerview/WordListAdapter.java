@@ -174,7 +174,7 @@ public class WordListAdapter extends
             }
         }
         if (Objects.equals(arr[1], EXPENSE)) {
-            holder.mbalance.setText("- " + balance_with_unit);
+            holder.mbalance.setText("-" + balance_with_unit);
             holder.mbalance.setTextColor(Color.BLACK);
             if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
                 holder.mbalance.setBackgroundDrawable(ContextCompat.getDrawable(holder.mbalance.getContext(), R.drawable.expense_background));
@@ -183,7 +183,7 @@ public class WordListAdapter extends
             }
             money -= balance;
         } else {
-            holder.mbalance.setText("+ " + balance_with_unit);
+            holder.mbalance.setText("+" + balance_with_unit);
             holder.mbalance.setTextColor(Color.WHITE);
             if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
                 holder.mbalance.setBackgroundDrawable(ContextCompat.getDrawable(holder.mbalance.getContext(), R.drawable.income_background));
